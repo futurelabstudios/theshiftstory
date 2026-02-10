@@ -1,0 +1,14 @@
+# Cache static assets aggressively
+/og-image.png
+  Cache-Control: public, max-age=31536000, immutable
+/apple-touch-icon.png
+  Cache-Control: public, max-age=31536000, immutable
+/favicon.svg
+  Cache-Control: public, max-age=31536000, immutable
+/futurelab-logo.png
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML should revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
