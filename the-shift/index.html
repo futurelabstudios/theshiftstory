@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SHIFT &mdash; Futurelab Studios 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   THE SHIFT — Editorial Design System
+   Inspired by The New Yorker, Kinfolk, Monocle
+   ========================================================================== */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #F5F0E8;
+  --cream-light: #FAF7F2;
+  --cream-dark: #E8E0D0;
+  --ink: #1A1714;
+  --ink-light: #3A3530;
+  --ink-mid: #6A6258;
+  --ink-faint: #9A9288;
+  --ink-whisper: #C0B8AE;
+  --terracotta: #B85C38;
+  --terracotta-light: #D4845E;
+  --terracotta-dark: #8A4028;
+  --teal: #2D6A4F;
+  --teal-light: #52A37A;
+  --gold: #C4A265;
+  --gold-light: #D4BA85;
+  --rule: #D0C8B8;
+  --rule-light: #E0D8C8;
+
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.8;
+}
+
+::selection {
+  background: var(--terracotta);
+  color: var(--cream);
+}
+
+/* ---- Reading Progress ---- */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--terracotta);
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.15s linear;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3 { font-family: var(--font-display); }
+
+.body-text {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.body-text p {
+  font-size: 1rem;
+  line-height: 1.9;
+  margin-bottom: 1.6rem;
+  color: var(--ink-light);
+}
+.body-text p:last-child { margin-bottom: 0; }
+
+/* Drop Cap */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 4.2rem;
+  float: left;
+  line-height: 0.8;
+  margin: 0.05em 0.12em 0 0;
+  color: var(--ink);
+}
+
+/* Horizontal Rule */
+.rule {
+  border: none;
+  height: 1px;
+  background: var(--rule);
+  max-width: 660px;
+  margin: 3.5rem auto;
+}
+.rule-short {
+  border: none;
+  height: 1px;
+  background: var(--rule);
+  width: 60px;
+  margin: 2.5rem auto;
+}
+.rule-accent {
+  border: none;
+  height: 2px;
+  background: var(--terracotta);
+  width: 40px;
+  margin: 2rem auto;
+}
+
+/* ---- Masthead / Cover ---- */
+.masthead {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.masthead-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.masthead-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+.masthead-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(245,240,232,0.3) 0%,
+    rgba(245,240,232,0.1) 30%,
+    rgba(245,240,232,0.6) 70%,
+    rgba(245,240,232,1) 100%
+  );
+  z-index: 1;
+}
+.masthead-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem 2rem 4rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+.masthead-studio {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeIn 1s 0.3s ease forwards;
+}
+.masthead-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3.5rem, 10vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeIn 1s 0.6s ease forwards;
+}
+.masthead-subtitle {
+  font-family: var(--font-accent);
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  max-width: 520px;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeIn 1s 0.9s ease forwards;
+}
+.masthead-meta {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  opacity: 0;
+  animation: fadeIn 1s 1.2s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Full-Bleed Image ---- */
+.full-image {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.full-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.full-image-tall { height: 70vh; min-height: 450px; }
+.full-image-medium { height: 50vh; min-height: 350px; }
+.full-image-short { height: 35vh; min-height: 250px; }
+.full-image-caption {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.image-overlay-dark {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(26,23,20,0.4) 100%);
+}
+
+/* ---- Inset Image ---- */
+.inset-image {
+  max-width: 780px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+.inset-image img {
+  width: 100%;
+  display: block;
+  border-radius: 2px;
+}
+.inset-caption {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  margin-top: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ---- Section Spacing ---- */
+.section-gap { height: 5rem; }
+.section-gap-lg { height: 8rem; }
+
+/* ---- Chapter Headers ---- */
+.chapter-head {
+  text-align: center;
+  padding: 6rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.chapter-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+}
+.chapter-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.chapter-deck {
+  font-family: var(--font-accent);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ink-mid);
+}
+
+/* ---- Pull Quote ---- */
+.pullquote {
+  max-width: 720px;
+  margin: 4rem auto;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+}
+.pullquote::before {
+  content: '\201C';
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--rule);
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1;
+}
+.pullquote-text {
+  font-family: var(--font-accent);
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.pullquote-text .hl {
+  color: var(--terracotta);
+  font-weight: 500;
+}
+
+/* ---- Character Card ---- */
+.character-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 500px;
+}
+.character-intro.reverse { direction: rtl; }
+.character-intro.reverse > * { direction: ltr; }
+.character-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+.character-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.character-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3.5rem 3rem;
+  background: var(--cream-light);
+}
+.character-name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  color: var(--ink);
+}
+.character-detail {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 1.5rem;
+}
+.character-bio {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--ink-mid);
+}
+
+/* ---- Stat Strip ---- */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.stat-item {
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border-right: 1px solid var(--rule-light);
+}
+.stat-item:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  color: var(--terracotta);
+}
+.stat-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+
+/* ---- Character Story Header (inline) ---- */
+.story-header {
+  max-width: 660px;
+  margin: 0 auto 1.5rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.story-marker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: white;
+  flex-shrink: 0;
+}
+.marker-lakshmi { background: var(--terracotta); }
+.marker-ravi { background: #4A7C6F; }
+.marker-aminah { background: #7A5A8A; }
+.marker-joseph { background: var(--gold); }
+.marker-devi { background: #C47A8A; }
+.story-header-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.story-header-loc {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+/* ---- Colophon ---- */
+.colophon {
+  padding: 4rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  max-width: 700px;
+  margin: 0 auto;
+}
+.colophon p {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--ink-whisper);
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+}
+.colophon-logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+/* ---- Animations ---- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  html { font-size: 16px; }
+  .character-intro { grid-template-columns: 1fr; }
+  .character-intro.reverse { direction: ltr; }
+  .character-image { min-height: 300px; }
+  .character-text { padding: 2.5rem 2rem; }
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--rule-light); }
+  .masthead-content { padding: 2rem 1.5rem 3rem; }
+  .chapter-head { padding: 4rem 1.5rem; }
+}
+@media (max-width: 480px) {
+  .stat-strip { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress -->
+<div class="progress" id="progress"></div>
+
+<!-- ======================================================================
+     MASTHEAD / COVER
+     ====================================================================== -->
+<header class="masthead">
+  <div class="masthead-image">
+    <img src="images/cover.jpg" alt="Golden atmospheric light — the dawn of a new era">
+  </div>
+  <div class="masthead-overlay"></div>
+  <div class="masthead-content">
+    <p class="masthead-studio">Futurelab Studios &middot; Bangalore &middot; 2026</p>
+    <h1 class="masthead-title">The Shift</h1>
+    <p class="masthead-subtitle">Five ordinary lives. Three eras of intelligence. The most extraordinary transformation in history &mdash; told from the ground up.</p>
+    <p class="masthead-meta">Special Report &middot; 2026 &nbsp;&mdash;&nbsp; India &middot; Bangladesh &middot; Kenya</p>
+  </div>
+</header>
+
+<!-- ======================================================================
+     OPENING
+     ====================================================================== -->
+<div class="section-gap-lg"></div>
+
+<div class="body-text fade-in">
+  <p class="drop-cap">It is 5:47 in the morning in Madurai, and Lakshmi&rsquo;s alarm has not gone off yet, but the roosters have. She rises, as she has for twenty years, to begin her walk to the wholesale market before the good tomatoes are taken. She will haggle in Tamil, count in her head faster than any calculator, and by noon she will have made two hundred transactions without writing down a single number. She has done this since she was twenty-five. She knows no other life.</p>
+  <p>Across the subcontinent, in Bangalore, Ravi is already awake. He is twenty-eight and drives a motorbike through darkness toward his first delivery of the day. In Dhaka, Aminah&rsquo;s fingers are already sore from yesterday, and the factory bell has not yet rung. In Nairobi, Joseph studies a low grey sky and wonders if the rains will come. In Lucknow, Devi is sixteen and awake at midnight, solving physics problems by the light of her phone because the electricity has cut out again.</p>
+  <p>None of them knows what is coming. Not the specifics. Not the timeline. Not the scale of it. But the world they will inhabit ten years from now will be so different from the one they woke up in this morning that the distance between the two will be hard to believe, even for the people who lived through it.</p>
+  <p>This is a story about that distance. Not told from a laboratory or a boardroom or a venture capital pitch deck, but from a vegetable stall in Tamil Nadu, a delivery route in Karnataka, a garment factory in Bangladesh, a two-acre farm in Kenya, and a cramped room in Uttar Pradesh where a girl is studying by phone-light and refusing to accept the life that was chosen for her.</p>
+</div>
+
+<hr class="rule">
+
+<!-- ======================================================================
+     THE CAST — CHARACTER INTRODUCTIONS
+     ====================================================================== -->
+<div class="chapter-head fade-in">
+  <p class="chapter-label">The People</p>
+  <h2 class="chapter-title">Five Lives</h2>
+  <p class="chapter-deck">They are not special. That is the point. They are vendors, drivers, factory workers, farmers, students. They are a billion people. They are the ones who never get asked about the future, even though the future will change their lives most.</p>
+</div>
+
+<!-- Lakshmi -->
+<div class="character-intro fade-in">
+  <div class="character-image">
+    <img src="images/lakshmi.jpg" alt="Warm terracotta and marigold — Lakshmi's world of spice and market life">
+  </div>
+  <div class="character-text">
+    <h3 class="character-name">Lakshmi</h3>
+    <p class="character-detail">45 &middot; Vegetable Vendor &middot; Madurai, Tamil Nadu, India</p>
+    <p class="character-bio">She has sold vegetables at Mattuthavani market for twenty years. She dropped out of school at fourteen to help her mother. She does not speak English. She cannot read it. She is among the sharpest businesspeople you will ever meet &mdash; she calculates margins, forecasts demand, and manages relationships with forty wholesale suppliers, all from memory. She has never used a spreadsheet. She has never needed one.</p>
+  </div>
+</div>
+
+<!-- Ravi -->
+<div class="character-intro reverse fade-in">
+  <div class="character-image">
+    <img src="images/ravi.jpg" alt="Urban blues and warm highlights — Ravi navigates the city at dawn">
+  </div>
+  <div class="character-text">
+    <h3 class="character-name">Ravi</h3>
+    <p class="character-detail">28 &middot; Delivery Driver &middot; Bangalore, Karnataka, India</p>
+    <p class="character-bio">Studied till twelfth standard. Could not afford college. Drives for Swiggy and Zomato, fourteen hours a day, earning eighteen thousand rupees a month. Enough to rent a room. Not enough to build a life. He practices English at red lights. He has never been inside a tech company office. He dreams of working in one.</p>
+  </div>
+</div>
+
+<!-- Aminah -->
+<div class="character-intro fade-in">
+  <div class="character-image">
+    <img src="images/aminah.jpg" alt="Rich jewel tones — the texture of cloth and quiet determination">
+  </div>
+  <div class="character-text">
+    <h3 class="character-name">Aminah</h3>
+    <p class="character-detail">22 &middot; Garment Worker &middot; Dhaka, Bangladesh</p>
+    <p class="character-bio">Ten-hour shifts in a factory that supplies European fashion houses. She sends most of her salary home to her family in Sylhet. Her fingers ache constantly. She has a worn, dog-eared notebook filled with dress designs she has never shown to anyone. It sits beneath her mattress in the dormitory room she shares with two other women.</p>
+  </div>
+</div>
+
+<!-- Joseph -->
+<div class="character-intro reverse fade-in">
+  <div class="character-image">
+    <img src="images/joseph.jpg" alt="Earth greens and harvest warmth — the land Joseph knows by heart">
+  </div>
+  <div class="character-text">
+    <h3 class="character-name">Joseph</h3>
+    <p class="character-detail">35 &middot; Smallholder Farmer &middot; Kangundo Road, Nairobi Outskirts, Kenya</p>
+    <p class="character-bio">Two acres of maize and beans. He worries about rainfall, prices, and school fees. His phone is a ten-year-old smartphone his cousin gave him. It has become, in the past year, his most valuable farming tool &mdash; though he would not have said that twelve months ago. He would have said the hoe.</p>
+  </div>
+</div>
+
+<!-- Devi -->
+<div class="character-intro fade-in">
+  <div class="character-image">
+    <img src="images/devi.jpg" alt="Soft dawn light — the glow of possibility and quiet brilliance">
+  </div>
+  <div class="character-text">
+    <h3 class="character-name">Devi</h3>
+    <p class="character-detail">16 &middot; Student &middot; Lucknow, Uttar Pradesh, India</p>
+    <p class="character-bio">First girl in her family to attend school past tenth standard. Brilliant at mathematics. Limited by a school where the physics teacher has not updated his notes since 2009 and the textbooks still reference the Soviet Union. She studies by phone-light during power cuts. She wants to be an engineer. She has never met one.</p>
+  </div>
+</div>
+
+<div class="section-gap-lg"></div>
+
+<!-- ======================================================================
+     STATISTICS STRIP
+     ====================================================================== -->
+<div class="stat-strip fade-in">
+  <div class="stat-item">
+    <div class="stat-number">57%</div>
+    <div class="stat-label">of India has adopted AI tools &mdash; the highest rate on Earth</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">228B</div>
+    <div class="stat-label">digital payments on UPI in 2025 &mdash; the world&rsquo;s largest system</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">15M+</div>
+    <div class="stat-label">farmers using AI-powered tools for crop health and yield prediction</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">70%</div>
+    <div class="stat-label">of children in low-income nations cannot read simple text by age 10</div>
+  </div>
+</div>
+
+<div class="section-gap-lg"></div>
+
+<!-- ======================================================================
+     CHAPTER I: AI — THE PRESENT
+     ====================================================================== -->
+<div class="full-image full-image-short fade-in">
+  <img src="images/landscape.jpg" alt="The landscape — vast, patient, waiting">
+  <div class="image-overlay-dark"></div>
+  <span class="full-image-caption">The landscape of the Global South: vast, patient, and on the edge of transformation.</span>
+</div>
+
+<div class="chapter-head fade-in">
+  <p class="chapter-label">Chapter One &middot; 2024 &ndash; 2026</p>
+  <h2 class="chapter-title">The Whisper</h2>
+  <p class="chapter-deck">Artificial intelligence is already here. It did not arrive with a thunderclap or a press conference. It arrived with a notification ping, a translated sentence, a photograph of a sick leaf. These are the small revolutions already happening on a billion screens.</p>
+</div>
+
+<!-- Lakshmi: AI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-lakshmi">L</div>
+  <div>
+    <div class="story-header-text">Lakshmi</div>
+    <div class="story-header-loc">Mattuthavani Market, Madurai</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p class="drop-cap">She discovered Google Lens six months ago through her son. She pointed her phone at the English-language notice tacked to the market office wall &mdash; something about new GST rules that every vendor was panicking about but nobody could fully read &mdash; and Tamil appeared on her screen. Not perfect Tamil. Clumsy, slightly formal, the way a textbook speaks. But enough.</p>
+  <p>For the first time in thirty years of working in this market, Lakshmi did not need to ask someone to explain an official document. She stood there for a full minute, rereading the screen, and felt something shift inside her chest. A door she had been locked out of her entire adult life had opened, just a crack, and light was coming through.</p>
+  <p>Now she uses it on everything. Medicine labels. Bank notices. The English menu at the restaurant her daughter wants to try. She tells her neighbor: <em>&ldquo;It is like someone gave me new eyes.&rdquo;</em></p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Ravi: AI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-ravi">R</div>
+  <div>
+    <div class="story-header-text">Ravi</div>
+    <div class="story-header-loc">Koramangala, Bangalore</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>The algorithm is his boss. It tells him where to go, what to pick up, which route to take, how many minutes he has before a penalty. He earns eighteen thousand rupees a month. The app&rsquo;s route optimization lets him squeeze in twenty-two deliveries some days instead of eighteen. Those four extra deliveries are the difference between paying rent and having money left for food.</p>
+  <p>But three months ago, Ravi found something else. An AI-powered English tutor on his phone. Every red light, every minute spent waiting outside a restaurant, he practices. Pronunciation drills. Grammar. Vocabulary. The AI is patient in a way no teacher he has ever had was patient. It never sighs. It never looks bored. It explains the same concept fourteen different ways until one of them clicks.</p>
+  <p><em>&ldquo;Hello, my name is Ravi, and I am looking for an opportunity in logistics management.&rdquo;</em> He practices this sentence every morning. His accent is getting better. The dream &mdash; a coordinator role at a tech company &mdash; is no longer a fantasy. It is a plan.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Aminah: AI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-aminah">A</div>
+  <div>
+    <div class="story-header-text">Aminah</div>
+    <div class="story-header-loc">Gazipur Industrial Zone, Dhaka</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>Last year the factory installed AI quality-inspection cameras on the production line. They catch defects she would have missed &mdash; a misaligned stitch, a fabric flaw invisible to a tired eye at hour nine. Her output metrics rose fifteen percent. Her pay did not change.</p>
+  <p>She knows what those cameras mean. Over three hundred and fifty factories in Bangladesh have begun automating. The cutting department on the floor below hers has already lost nearly half its workers. Forty percent of the national garment workforce is at risk. She feels the statistic the way you feel weather &mdash; not as a number, but as a pressure in the chest.</p>
+  <p>But at night, in the dormitory, Aminah watches AI-translated tutorials on pattern design. The tutorials are in English; the AI dubs them into Bangla in a voice that sounds almost natural. She is filling the notebook. Page after page of original dress designs &mdash; modern cuts with traditional Jamdani motifs, draped silhouettes she has never seen in any catalogue. She is teaching herself to be the thing the machines cannot replace.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Joseph: AI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-joseph">J</div>
+  <div>
+    <div class="story-header-text">Joseph</div>
+    <div class="story-header-loc">Kangundo Road, Nairobi Outskirts</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>A neighbor showed him the PlantVillage app at church. The next morning, Joseph photographed the yellowing leaves on his maize &mdash; the leaves that had kept him awake at night, wondering if he was going to lose the crop. The app told him in three seconds what an agricultural extension officer would have told him in three weeks, if one ever came: Fall Armyworm. It suggested a treatment, showed him where to buy the pesticide at the cheapest price within twenty kilometers, and estimated the yield he could save by acting within forty-eight hours.</p>
+  <p>His harvest that season was thirty percent higher than the year before. He told his wife that evening, holding the phone like a sacred object: <em>&ldquo;This phone is becoming the best farmhand I have ever had.&rdquo;</em></p>
+  <p>Joseph now checks three apps every morning before breakfast &mdash; weather, crop health, market prices. He does this with the same quiet ritual seriousness with which he reads his Bible. He does not call it artificial intelligence. He calls it &ldquo;the advice.&rdquo;</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Devi: AI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-devi">D</div>
+  <div>
+    <div class="story-header-text">Devi</div>
+    <div class="story-header-loc">Aminabad, Lucknow</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>The electricity cuts out at half past nine, as it does most nights. Devi does not even flinch. She switches to her phone, the screen casting a blue-white glow on the ceiling of the room she shares with her younger brother. She has a question about electromagnetic induction that her physics teacher could not answer today, because her physics teacher does not understand electromagnetic induction particularly well.</p>
+  <p>She types the question into ChatGPT. The answer arrives in a way that makes something rearrange itself inside her mind: the AI explains it using the analogy of a bicycle dynamo &mdash; the exact dynamo on the bicycle she rides to school every morning. Something unlocks. Not just the physics, but a feeling: she belongs in this world of equations and forces and invisible fields. She is not an outsider peering in through glass. She is someone who understands.</p>
+  <p>She reads ahead three chapters that night. When her mother asks why she is still awake, Devi says, quietly: <em>&ldquo;Because for the first time, I have a teacher who goes at my speed.&rdquo;</em></p>
+</div>
+
+<!-- Pullquote -->
+<div class="pullquote fade-in">
+  <p class="pullquote-text">What is happening right now, quietly, on a billion screens across the developing world, is the largest redistribution of <span class="hl">access to knowledge</span> in human history. And we are only at the beginning.</p>
+</div>
+
+<hr class="rule">
+
+<!-- ======================================================================
+     CHAPTER II: AGI — THE AWAKENING
+     ====================================================================== -->
+<div class="full-image full-image-medium fade-in">
+  <img src="images/agi_transition.jpg" alt="The turning — cool teals of transformation">
+  <div class="image-overlay-dark"></div>
+</div>
+
+<div class="chapter-head fade-in">
+  <p class="chapter-label">Chapter Two &middot; The Near Future</p>
+  <h2 class="chapter-title">The Awakening</h2>
+  <p class="chapter-deck">Artificial General Intelligence does not arrive with a fanfare. It arrives with a whisper &mdash; and then the whisper becomes a roar. The machine can now reason, plan, create, and learn as flexibly as any human mind. The world tilts on its axis.</p>
+</div>
+
+<!-- Stats -->
+<div class="stat-strip fade-in">
+  <div class="stat-item">
+    <div class="stat-number">$20T</div>
+    <div class="stat-label">projected addition to global GDP from AI &mdash; but 70% may go to just ten countries</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">40%</div>
+    <div class="stat-label">projected boost to global trade by 2040, if infrastructure gaps are bridged</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">15%</div>
+    <div class="stat-label">income rise possible in low-income nations if the digital divide is halved</div>
+  </div>
+</div>
+
+<div class="section-gap"></div>
+
+<!-- Lakshmi: AGI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-lakshmi">L</div>
+  <div>
+    <div class="story-header-text">Lakshmi</div>
+    <div class="story-header-loc">Mattuthavani Market, Madurai &mdash; The AGI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p class="drop-cap">The assistant on her phone is different now. It does not just translate &mdash; it understands. It has analyzed two years of her sales patterns, cross-referenced wholesale prices with weather data, festival calendars, and transport logistics across southern India. It speaks to her in Tamil, in a voice that is warm and unhurried.</p>
+  <p><em>&ldquo;Lakshmi-amma, buy forty kilos of onions today. There is a transport disruption forming in Maharashtra. Prices will rise sharply next week.&rdquo;</em> She is skeptical. She buys thirty. The price rises seventy percent. She never doubts it again.</p>
+  <p>Within six months, her daily profit has tripled. But the real change is not the money. The AGI helps her organize twelve other vendors into a purchasing cooperative. It drafts the registration paperwork in English, explains every clause in Tamil, negotiates bulk rates using market data no human could compile in a lifetime, and manages the accounting in real time. Lakshmi cannot read the English documents. She does not need to. The AI reads them with the rigor of a corporate lawyer and advocates for her interests better than any professional she could have afforded.</p>
+  <p>Her granddaughter, age eight, has an AGI tutor. It is better than the best teacher at the best school in Chennai. It knows every gap in the child&rsquo;s understanding, senses every flicker of lost attention, finds the exact analogy &mdash; from the child&rsquo;s own life, her own market, her own street &mdash; that makes a concept ignite. The playing field has not merely leveled. For the first time in history, it has tilted toward the people who were always left behind.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Ravi: AGI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-ravi">R</div>
+  <div>
+    <div class="story-header-text">Ravi</div>
+    <div class="story-header-loc">HSR Layout, Bangalore &mdash; The AGI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>Ravi does not deliver food anymore. Autonomous vehicles handle last-mile logistics now. He was terrified for three months &mdash; the longest three months of his life, watching his savings drain away, wondering if everything he had worked for was going to disappear.</p>
+  <p>Then the AGI that had been teaching him English and basic programming presented him with something unexpected: a plan. Not a suggestion &mdash; a detailed, step-by-step blueprint for a hyperlocal logistics platform serving Bangalore&rsquo;s restaurant supply chain. The exact gap in the market that Ravi, with his years of on-the-ground delivery experience, could see but had never had the tools to fill.</p>
+  <p>The AGI coded alongside him, explained every function, every design decision, every business trade-off with the patience of a mentor and the precision of a management consultant. When Ravi got stuck, it did not hand him the answer. It asked him questions until he found it himself.</p>
+  <p>The app launched. Forty-three restaurants signed up in the first month. His income went from eighteen thousand rupees to two lakh eighty thousand. He hired two people. He called his mother in the village. <em>&ldquo;What happened to you?&rdquo;</em> she asked, hearing something new in his voice. <em>&ldquo;I learned, Amma. I finally had a teacher who would not give up on me.&rdquo;</em></p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Aminah: AGI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-aminah">A</div>
+  <div>
+    <div class="story-header-text">Aminah</div>
+    <div class="story-header-loc">Dhaka &mdash; The AGI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>The cutting floor is nearly empty now. The numbers she feared came true: garment employment across Bangladesh dropped by nearly a third. Women she worked alongside for years have returned to their villages, gone to the Gulf, or simply disappeared into the cracks of the economy.</p>
+  <p>Aminah survived because of the notebook.</p>
+  <p>An AGI-powered design platform recognized something the factory floor never could: she had an eye. A real, distinctive, startlingly original creative sensibility. The AI helped her turn rough sketches into production-ready patterns. It taught her fabric weight, drape physics, color theory, sizing standards for markets from Tokyo to Toronto. It connected her with a micro-manufacturing cooperative and a digital marketplace.</p>
+  <p>Her first collection &mdash; modern silhouettes with traditional Jamdani motifs &mdash; sold out in eleven days. She earns five times what the factory paid her. She works from a small studio that used to be someone&rsquo;s kitchen. She employs three women from her old production line. The notebook sits on her desk, open. No longer a secret.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Joseph: AGI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-joseph">J</div>
+  <div>
+    <div class="story-header-text">Joseph</div>
+    <div class="story-header-loc">Kangundo Road, Kenya &mdash; The AGI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>Joseph&rsquo;s farm is still two acres of red-brown earth under an enormous sky. But what happens on those acres has changed. The AGI manages his soil like a doctor manages a patient &mdash; nitrogen levels, moisture profiles, microbial health. It controls the drip irrigation system, installed through a government subsidy the AI helped him find and apply for. Water usage has dropped by sixty percent. Yields have tripled.</p>
+  <p>But the transformation Joseph talks about most is the market. The AGI connects him directly to buyers in Nairobi, Mombasa, even Dar es Salaam. It knows what prices are offered at which stalls, which restaurants need what produce, the precise moment to sell. The middlemen who used to take half his revenue have become irrelevant.</p>
+  <p>Neighboring farmers come to his house on Sunday afternoons, and he shows them what he has learned. The AGI translates between Kikuyu, Swahili, and English effortlessly. Joseph has become, without any formal credential, the most effective agricultural extension officer in his county.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Devi: AGI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-devi">D</div>
+  <div>
+    <div class="story-header-text">Devi</div>
+    <div class="story-header-loc">IIT Kanpur &mdash; The AGI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>She got in.</p>
+  <p>Devi &mdash; daughter of an auto-rickshaw driver in Lucknow, product of a government school with chipped desks and missing ceiling fans &mdash; is at IIT Kanpur. Not because the bar was lowered. Because the AGI tutor raised her to meet it. It had mapped every gap in her knowledge since she was sixteen. It built a curriculum as rigorous as the coaching institutes in Kota but infinitely more adaptive. When she struggled with organic chemistry, it discovered she was a visual-spatial thinker and rebuilt the module around three-dimensional molecular models she could rotate on her phone.</p>
+  <p>At IIT, she is not playing catch-up. She is among the top five in her cohort. Her research adviser said something last week that she keeps replaying: <em>&ldquo;Your intuition for problems is unusual. Where did you develop it?&rdquo;</em></p>
+  <p><em>&ldquo;I had a teacher who went at my speed,&rdquo;</em> she said. The same words she spoke to her mother years ago, by phone-light, in a dark room in Lucknow. But now they carry the weight of proof.</p>
+</div>
+
+<!-- Pullquote -->
+<div class="pullquote fade-in">
+  <p class="pullquote-text">AGI does not create equality. It creates <span class="hl">access</span>. And access, at this scale, in this many hands, will do what no government program or revolution ever fully managed: unlock what was always there.</p>
+</div>
+
+<hr class="rule">
+
+<!-- ======================================================================
+     CHAPTER III: ASI — BEYOND
+     ====================================================================== -->
+<div class="full-image full-image-medium fade-in">
+  <img src="images/asi_transition.jpg" alt="The beyond — deep violet and gold, the edge of the unknowable">
+  <div class="image-overlay-dark"></div>
+</div>
+
+<div class="chapter-head fade-in">
+  <p class="chapter-label">Chapter Three &middot; The Horizon</p>
+  <h2 class="chapter-title">Beyond</h2>
+  <p class="chapter-deck">Artificial Superintelligence. We cannot fully describe it, because to do so would require an intelligence we do not yet possess. But we can follow our five people a few more years into the future and describe the world they might inhabit &mdash; not as prophecy, but as trajectory.</p>
+</div>
+
+<div class="body-text fade-in">
+  <p style="font-family:var(--font-accent); font-size:1.2rem; color:var(--ink-mid); font-style:italic; text-align:center;">Trying to imagine ASI is like asking a house cat to describe the internet. The cat can sit on the laptop. It cannot conceive of what the laptop contains.</p>
+</div>
+
+<div class="section-gap"></div>
+
+<!-- Lakshmi: ASI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-lakshmi">L</div>
+  <div>
+    <div class="story-header-text">Lakshmi</div>
+    <div class="story-header-loc">Madurai &mdash; The ASI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p class="drop-cap">The clinic in Madurai diagnosed her husband with pancreatic cancer. Stage three. A year ago this was a death sentence &mdash; especially in a district hospital, especially without the money for treatment in Chennai or Mumbai. Today, the ASI-designed treatment protocol gives him a ninety-four percent survival rate. The treatment costs three thousand four hundred rupees. Less than what Lakshmi earns in a day.</p>
+  <p>She sits in the gleaming clinic &mdash; so different from the government hospital she remembers &mdash; and thinks about her mother, who died of a treatable infection fifteen years ago because the nearest doctor was forty kilometers away and the monsoon had turned the roads to rivers.</p>
+  <p>This is what progress feels like. Not like a headline. Not like a statistic. Like a quiet room where your husband is going to live.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Ravi: ASI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-ravi">R</div>
+  <div>
+    <div class="story-header-text">Ravi</div>
+    <div class="story-header-loc">Bangalore &mdash; The ASI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>The concept of employment, as his generation understood it, no longer quite applies. His logistics platform was absorbed into a larger system. He does not resent this &mdash; the transition made him genuinely wealthy, and the universal basic services framework means nobody in his mother&rsquo;s village goes without food, healthcare, or connectivity.</p>
+  <p>Ravi now does something he never had a word for before: he creates. He designs community spaces. He mentors young people from backgrounds like his &mdash; delivery drivers, auto-rickshaw operators, street vendors &mdash; who are navigating the same vertiginous shift he went through. He is a translator between the old world and the new.</p>
+  <p>His mother, seventy-one now, video-calls every evening. The health monitor on her wrist detected an irregular heartbeat six months ago, referred her to a cardiologist before she felt a symptom, and managed her treatment so precisely that she told Ravi: <em>&ldquo;This bracelet cares for me better than you do.&rdquo;</em> He laughed. She was not entirely joking.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Aminah: ASI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-aminah">A</div>
+  <div>
+    <div class="story-header-text">Aminah</div>
+    <div class="story-header-loc">Dhaka &mdash; The ASI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>The floods did not come this year. Or the year before.</p>
+  <p>Aminah&rsquo;s family village in Sylhet used to flood every monsoon. Climate models had predicted it would get worse until the village simply ceased to be habitable. Her mother had begun talking about <em>when</em>, not <em>if</em>, they would leave.</p>
+  <p>The ASI-designed climate interventions changed the math. Not through some dramatic cinematic project, but through thousands of coordinated micro-interventions &mdash; optimized water management, atmospheric carbon capture at unprecedented scale, precision agriculture that turned farmland from carbon source to carbon sink. The global temperature curve is bending downward for the first time.</p>
+  <p>Aminah&rsquo;s studio now employs forty people. She still keeps the old notebook on her desk. Sometimes she opens it and looks at the sketches from the factory dormitory and marvels at the distance between the woman who drew them and the woman who reads them now.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Joseph: ASI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-joseph">J</div>
+  <div>
+    <div class="story-header-text">Joseph</div>
+    <div class="story-header-loc">Kangundo Road, Kenya &mdash; The ASI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>Joseph&rsquo;s farm is now a research garden. He grows traditional crop varieties &mdash; heritage maize, ancestral bean cultivars, indigenous vegetables that were disappearing from the earth &mdash; and works with the ASI to catalog their genetic properties. His two acres have become a living library of agricultural biodiversity.</p>
+  <p>He does not understand the science, not fully. But he understands what he is protecting. And the ASI, for all its incomprehensible intelligence, needs him &mdash; his knowledge of the soil, his farmer&rsquo;s intuition about which seeds want which ground, his decades of watching this specific piece of earth respond to rain and sun and care. The smartest system ever created still needs a man who knows his land.</p>
+</div>
+
+<hr class="rule-short">
+
+<!-- Devi: ASI -->
+<div class="story-header fade-in">
+  <div class="story-marker marker-devi">D</div>
+  <div>
+    <div class="story-header-text">Devi</div>
+    <div class="story-header-loc">Everywhere &mdash; The ASI Era</div>
+  </div>
+</div>
+<div class="body-text fade-in">
+  <p>Devi is asking questions that no human being has ever asked. She works at the frontier of theoretical physics, in a domain that did not exist before ASI illuminated it. She does not feel small. She feels the way she felt at sixteen, by phone-light in Lucknow &mdash; that same electricity, that same sense of a door opening. The room is just infinitely larger now.</p>
+  <p>Her father still rides in his auto-rickshaw, though now it drives itself and he mostly goes along for the conversations with passengers. He tells everyone about his daughter. <em>&ldquo;She is studying something I cannot pronounce,&rdquo;</em> he says, beaming. <em>&ldquo;But she told me it is about the shape of the universe.&rdquo;</em></p>
+  <p>He says it the way a man says a prayer.</p>
+</div>
+
+<div class="section-gap-lg"></div>
+
+<!-- ======================================================================
+     EPILOGUE
+     ====================================================================== -->
+<div class="full-image full-image-medium fade-in">
+  <img src="images/epilogue.jpg" alt="Dawn — the warmth of a new beginning">
+  <div class="image-overlay-dark"></div>
+</div>
+
+<div class="chapter-head fade-in">
+  <p class="chapter-label">Epilogue</p>
+  <h2 class="chapter-title">The Greatest Story<br>Ever Being Written</h2>
+</div>
+
+<div class="body-text fade-in">
+  <p class="drop-cap">The future is not a place we are going. It is a thing we are making. And the question that matters most is not how intelligent the machines become, but whose lives they change, and whether the change reaches the people who have waited longest for it.</p>
+  <p>The distance between a vegetable vendor&rsquo;s phone and an artificial superintelligence is vast. But the distance between a woman who cannot read an English sign and a woman who runs a cooperative is also vast &mdash; and Lakshmi has already crossed it. The distance between a delivery boy and an entrepreneur is vast &mdash; and Ravi is already on the other side.</p>
+  <p>There will be displacement. There will be loss. Entire industries will evaporate. Skills that defined generations will become obsolete overnight. The transition will not be clean or fair. The people with the least power will, as they always have, bear the greatest risk of being left behind.</p>
+  <p>But for the first time in human history, the most powerful technology ever created is not locked behind a paywall, a border, a language, or a degree. It is on a phone in Madurai. It is on a farm in Kenya. It is in a factory dormitory in Dhaka, and in a student&rsquo;s hand in Lucknow.</p>
+  <p style="font-family:var(--font-accent); font-size:1.25rem; color:var(--terracotta); font-style:italic; margin-top:2rem;">And its greatest story will not be told in boardrooms or laboratories or the pages of academic journals. It will be told in the lives of ordinary people who were never supposed to have access to the extraordinary.</p>
+</div>
+
+<hr class="rule-accent">
+
+<div class="section-gap"></div>
+
+<!-- ======================================================================
+     COLOPHON
+     ====================================================================== -->
+<footer class="colophon">
+  <p class="colophon-logo">FUTURELAB STUDIOS</p>
+  <p>Bangalore, India &middot; Imagining Futures &middot; Special Report 2026</p>
+  <!-- Minimal colophon: no external research credits or taglines -->
+</footer>
+
+<!-- ======================================================================
+     JAVASCRIPT
+     ====================================================================== -->
+<script>
+(function() {
+  'use strict';
+
+  // Progress bar
+  const bar = document.getElementById('progress');
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (scrollTop / docHeight * 100) + '%';
+  }
+
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Throttled scroll
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { updateProgress(); ticking = false; });
+      ticking = true;
+    }
+  });
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>

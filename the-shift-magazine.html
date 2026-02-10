@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SHIFT &mdash; When Intelligence Becomes Infinite | Futurelab Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE SHIFT — A Digital Magazine by Futurelab Studios
+   Immersive Design System
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-void: #020204;
+  --bg-dark: #06060b;
+  --bg-ink: #0d0d14;
+  --bg-charcoal: #141420;
+  --text-cream: #f0ece2;
+  --text-dim: #8a8478;
+  --text-muted: #5a5650;
+  --gold: #c9a84c;
+  --gold-bright: #e8c85a;
+  --gold-dim: #8a7535;
+  --ember: #d4764e;
+  --ember-deep: #a85a3a;
+  --ember-glow: #ff9966;
+  --teal: #2b9eb3;
+  --teal-bright: #47d4e8;
+  --teal-dim: #1a6b7a;
+  --violet: #7b5ea7;
+  --violet-bright: #a78bfa;
+  --violet-dim: #5a4080;
+  --rose: #e06080;
+  --cyan: #00e5ff;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,0.3) transparent;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--ember), var(--gold), var(--teal), var(--violet));
+  border-radius: 3px;
+}
+
+body {
+  background: var(--bg-void);
+  color: var(--text-cream);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10001;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference;
+}
+.cursor-glow {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+.cursor-glow.hovering {
+  width: 60px;
+  height: 60px;
+  border-color: var(--gold-bright);
+  background: rgba(201,168,76,0.05);
+}
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-void);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-brand {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: loaderFade 1s 0.3s ease forwards;
+}
+.loader-ring {
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(201,168,76,0.1);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.loader-text {
+  margin-top: 2rem;
+  font-family: var(--font-accent);
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 0;
+  animation: loaderFade 1s 0.6s ease forwards;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes loaderFade { to { opacity: 1; } }
+
+/* ============================================================
+   PARTICLE CANVAS
+   ============================================================ */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   MOUSE GLOW
+   ============================================================ */
+.mouse-glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: background 0.8s ease;
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--gold-bright), var(--teal-bright), var(--violet-bright));
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.15s linear;
+  box-shadow: 0 0 20px rgba(201,168,76,0.3);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.nav.visible { opacity: 1; }
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(240,236,226,0.1);
+  border: 1px solid rgba(240,236,226,0.15);
+  cursor: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.nav-dot:hover, .nav-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: scale(1.5);
+  box-shadow: 0 0 15px rgba(201,168,76,0.4);
+}
+.nav-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  right: 1.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.nav-dot:hover::after { opacity: 1; transform: translateY(-50%) translateX(-5px); }
+
+/* ============================================================
+   SHARED SECTION STYLES
+   ============================================================ */
+.section {
+  min-height: 100vh;
+  padding: 8rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+.section-narrow {
+  max-width: 780px;
+  margin: 0 auto;
+}
+.section-wide {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+.anim {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim.vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+.anim-delay-1 { transition-delay: 0.15s; }
+.anim-delay-2 { transition-delay: 0.3s; }
+.anim-delay-3 { transition-delay: 0.45s; }
+.anim-delay-4 { transition-delay: 0.6s; }
+.anim-delay-5 { transition-delay: 0.75s; }
+
+.anim-scale {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-scale.vis {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.anim-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-left.vis {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.anim-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-right.vis {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 1.05;
+}
+.t-accent {
+  font-family: var(--font-accent);
+  font-weight: 300;
+  line-height: 1.4;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   COVER
+   ============================================================ */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(212,118,78,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(43,158,179,0.03) 0%, transparent 60%);
+  animation: coverGlow 8s ease-in-out infinite alternate;
+}
+@keyframes coverGlow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Floating orbs on cover */
+.cover-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+.cover-orb-1 {
+  width: 400px; height: 400px;
+  background: var(--gold);
+  top: 10%; left: 15%;
+  animation-delay: 0s;
+}
+.cover-orb-2 {
+  width: 300px; height: 300px;
+  background: var(--teal);
+  top: 60%; right: 10%;
+  animation-delay: -4s;
+  animation-duration: 15s;
+}
+.cover-orb-3 {
+  width: 250px; height: 250px;
+  background: var(--violet);
+  bottom: 20%; left: 30%;
+  animation-delay: -8s;
+  animation-duration: 18s;
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.1); }
+  50% { transform: translate(-20px, 30px) scale(0.9); }
+  75% { transform: translate(15px, 15px) scale(1.05); }
+}
+
+.cover-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: coverFadeUp 1s 1.5s ease forwards;
+}
+.cover-label::before, .cover-label::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold-dim);
+  vertical-align: middle;
+  margin: 0 1rem;
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4.5rem, 14vw, 13rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: coverTitleReveal 1.5s 2s ease forwards;
+}
+.cover-title-line {
+  display: block;
+  background: linear-gradient(135deg, var(--text-cream) 0%, var(--gold) 40%, var(--ember-glow) 70%, var(--gold-bright) 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 8s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes coverTitleReveal {
+  from { opacity: 0; transform: translateY(50px) scale(0.95); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes coverFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cover-subtitle {
+  font-family: var(--font-accent);
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-top: 2.5rem;
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: coverFadeUp 1s 2.8s ease forwards;
+}
+.cover-meta {
+  margin-top: 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: coverFadeUp 1s 3.3s ease forwards;
+}
+.cover-scroll {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 1;
+  opacity: 0;
+  animation: coverFadeUp 1s 3.8s ease forwards;
+}
+.cover-scroll span {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* Glitch decoration */
+.cover-glitch {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: rgba(201,168,76,0.08);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+  z-index: 0;
+}
+.cover-glitch-1 { top: 15%; left: 5%; transform: rotate(-90deg); }
+.cover-glitch-2 { bottom: 25%; right: 5%; transform: rotate(90deg); }
+
+/* ============================================================
+   SVG ILLUSTRATION SECTIONS
+   ============================================================ */
+.illustration-section {
+  position: relative;
+  padding: 6rem 2rem;
+  overflow: hidden;
+  z-index: 2;
+}
+.illustration-section svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* ============================================================
+   PROLOGUE
+   ============================================================ */
+.prologue {
+  background: var(--bg-dark);
+  z-index: 2;
+  position: relative;
+}
+.prologue-text {
+  font-family: var(--font-accent);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--text-cream);
+  max-width: 700px;
+  margin: 0 auto;
+}
+.prologue-text em {
+  color: var(--gold);
+  font-style: italic;
+}
+.prologue-text .dim {
+  color: var(--text-dim);
+}
+
+/* ============================================================
+   SEPARATOR ART
+   ============================================================ */
+.separator {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+.separator-line {
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
+}
+.separator-line-gold { background: linear-gradient(90deg, transparent, var(--gold-dim), transparent); }
+.separator-line-teal { background: linear-gradient(90deg, transparent, var(--teal-dim), transparent); }
+.separator-line-violet { background: linear-gradient(90deg, transparent, var(--violet-dim), transparent); }
+.separator-diamond {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  margin: 0 1.5rem;
+}
+.separator-diamond-gold { background: var(--gold-dim); }
+.separator-diamond-teal { background: var(--teal-dim); }
+.separator-diamond-violet { background: var(--violet-dim); }
+
+/* ============================================================
+   CAST / CHARACTER CARDS
+   ============================================================ */
+.cast-section {
+  background: var(--bg-ink);
+  z-index: 2;
+  position: relative;
+  overflow: hidden;
+}
+.cast-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 20% 30%, rgba(212,118,78,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 70%, rgba(43,158,179,0.03) 0%, transparent 70%);
+}
+.cast-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  position: relative;
+}
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.cast-card {
+  background: rgba(9,9,16,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.2rem;
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease,
+              background 0.4s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.cast-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.cast-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transition: height 0.4s ease;
+}
+.cast-card:hover::before {
+  height: 4px;
+}
+.cast-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: 1.2rem;
+}
+.cast-card:hover::after { opacity: 1; }
+
+.cast-card:nth-child(1)::before { background: linear-gradient(90deg, var(--ember), var(--ember-glow)); }
+.cast-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--teal-bright)); }
+.cast-card:nth-child(3)::before { background: linear-gradient(90deg, var(--violet), var(--violet-bright)); }
+.cast-card:nth-child(4)::before { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+.cast-card:nth-child(5)::before { background: linear-gradient(90deg, var(--rose), #ff8fa3); }
+
+.cast-card:nth-child(1)::after { background: radial-gradient(ellipse at top, rgba(212,118,78,0.05), transparent 70%); }
+.cast-card:nth-child(2)::after { background: radial-gradient(ellipse at top, rgba(43,158,179,0.05), transparent 70%); }
+.cast-card:nth-child(3)::after { background: radial-gradient(ellipse at top, rgba(123,94,167,0.05), transparent 70%); }
+.cast-card:nth-child(4)::after { background: radial-gradient(ellipse at top, rgba(201,168,76,0.05), transparent 70%); }
+.cast-card:nth-child(5)::after { background: radial-gradient(ellipse at top, rgba(224,96,128,0.05), transparent 70%); }
+
+/* Character SVG Avatar */
+.cast-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2rem;
+  color: var(--bg-dark);
+  position: relative;
+  overflow: hidden;
+}
+.cast-card:nth-child(1) .cast-avatar { background: linear-gradient(135deg, var(--ember), var(--ember-glow)); }
+.cast-card:nth-child(2) .cast-avatar { background: linear-gradient(135deg, var(--teal), var(--teal-bright)); }
+.cast-card:nth-child(3) .cast-avatar { background: linear-gradient(135deg, var(--violet), var(--violet-bright)); }
+.cast-card:nth-child(4) .cast-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); }
+.cast-card:nth-child(5) .cast-avatar { background: linear-gradient(135deg, var(--rose), #ff8fa3); }
+
+.cast-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2));
+  border-radius: 50%;
+}
+
+.cast-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.cast-meta {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.2rem;
+}
+.cast-desc {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ============================================================
+   CHAPTER HEADERS — Epic Full Viewport
+   ============================================================ */
+.chapter-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.chapter-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg-dark), transparent);
+  z-index: 1;
+}
+.chapter-era {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+.chapter-number {
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 25vw, 20rem);
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  opacity: 0.04;
+  position: absolute;
+  z-index: 0;
+}
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+.chapter-desc {
+  font-family: var(--font-accent);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 300;
+  max-width: 550px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+}
+
+/* Chapter SVG Illustration container */
+.chapter-illustration {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  opacity: 0.15;
+}
+.chapter-illustration svg {
+  width: 60%;
+  max-width: 500px;
+  height: auto;
+}
+
+/* ERA: AI */
+.era-ai {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, #100a06 30%, #0f0b08 50%, #100a06 70%, var(--bg-dark) 100%);
+}
+.era-ai .chapter-era { color: var(--ember); }
+.era-ai .chapter-number { color: var(--ember); }
+.era-ai .chapter-title {
+  background: linear-gradient(135deg, var(--text-cream), var(--ember-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.era-ai .chapter-desc { color: var(--text-dim); }
+.era-ai::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(212,118,78,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 30%, rgba(255,153,102,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 70%, rgba(201,168,76,0.03) 0%, transparent 60%);
+}
+
+/* ERA: AGI */
+.era-agi {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, #040d10 30%, #060d10 50%, #040d10 70%, var(--bg-dark) 100%);
+}
+.era-agi .chapter-era { color: var(--teal); }
+.era-agi .chapter-number { color: var(--teal); }
+.era-agi .chapter-title {
+  background: linear-gradient(135deg, var(--text-cream), var(--teal-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.era-agi .chapter-desc { color: var(--text-dim); }
+.era-agi::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(43,158,179,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 30% 20%, rgba(71,212,232,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 70% 80%, rgba(0,229,255,0.02) 0%, transparent 60%);
+}
+
+/* ERA: ASI */
+.era-asi {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, #080410 30%, #0a0610 50%, #080410 70%, var(--bg-dark) 100%);
+}
+.era-asi .chapter-era { color: var(--violet-bright); }
+.era-asi .chapter-number { color: var(--violet); }
+.era-asi .chapter-title {
+  background: linear-gradient(135deg, var(--text-cream), var(--violet-bright), var(--cyan));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s ease-in-out infinite;
+}
+.era-asi .chapter-desc { color: var(--text-dim); }
+.era-asi::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(123,94,167,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 70%, rgba(167,139,250,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 30%, rgba(0,229,255,0.02) 0%, transparent 60%);
+}
+
+/* ============================================================
+   STORY SECTIONS
+   ============================================================ */
+.story {
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+.story + .story {
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+.story-inner {
+  max-width: 740px;
+  margin: 0 auto;
+  background: rgba(9,9,16,0.82);
+  border-radius: 1.6rem;
+  padding: 2.6rem 2.1rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 20px 70px rgba(0,0,0,0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.story-character {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.story-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--bg-dark);
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.story-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.avatar-lakshmi { background: linear-gradient(135deg, var(--ember), var(--ember-glow)); }
+.avatar-ravi { background: linear-gradient(135deg, var(--teal), var(--teal-bright)); }
+.avatar-aminah { background: linear-gradient(135deg, var(--violet), var(--violet-bright)); }
+.avatar-joseph { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); }
+.avatar-devi { background: linear-gradient(135deg, var(--rose), #ff8fa3); }
+
+.story-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.story-loc {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.story p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: rgba(240,236,226,0.82);
+  margin-bottom: 1.5rem;
+}
+.story p:last-child { margin-bottom: 0; }
+.story strong {
+  color: var(--text-cream);
+  font-weight: 600;
+}
+
+/* ============================================================
+   PULL QUOTES — Cinematic
+   ============================================================ */
+.pullquote {
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+.pullquote::before {
+  content: '\201C';
+  font-family: var(--font-display);
+  font-size: 12rem;
+  font-weight: 900;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1;
+  opacity: 0.04;
+  color: var(--gold);
+}
+.pullquote-text {
+  font-family: var(--font-accent);
+  font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-cream);
+  position: relative;
+}
+.pullquote-text .highlight-gold { color: var(--gold-bright); text-shadow: 0 0 30px rgba(201,168,76,0.2); }
+.pullquote-text .highlight-teal { color: var(--teal-bright); text-shadow: 0 0 30px rgba(43,158,179,0.2); }
+.pullquote-text .highlight-violet { color: var(--violet-bright); text-shadow: 0 0 30px rgba(167,139,250,0.2); }
+
+.pullquote-attr {
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   STAT BLOCKS — Animated counters
+   ============================================================ */
+.stats-section {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 2rem 6rem;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.stat {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 1rem;
+  background: rgba(9,9,16,0.7);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.08);
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+.stat-number.gold { color: var(--gold-bright); }
+.stat-number.ember { color: var(--ember-glow); }
+.stat-number.teal { color: var(--teal-bright); }
+.stat-number.violet { color: var(--violet-bright); }
+.stat-number.rose { color: var(--rose); }
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   INTERLUDE — The Big Question
+   ============================================================ */
+.interlude {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+.interlude::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(43,158,179,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 30% 40%, rgba(167,139,250,0.03) 0%, transparent 60%);
+}
+.interlude-question {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1.15;
+  text-align: center;
+  background: linear-gradient(135deg, var(--teal-bright), var(--violet-bright), var(--cyan));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s ease-in-out infinite;
+  max-width: 800px;
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline-bar {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+.timeline-track {
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.timeline-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.timeline-fill.animated {
+  width: var(--target-width) !important;
+}
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.timeline-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   EPILOGUE
+   ============================================================ */
+.epilogue {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, #0e0c08 30%, #100e08 50%, #0e0c08 70%, var(--bg-dark) 100%);
+  text-align: center;
+  z-index: 2;
+  position: relative;
+}
+.epilogue::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(201,168,76,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 30% 60%, rgba(212,118,78,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 70% 60%, rgba(43,158,179,0.02) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 25% at 50% 80%, rgba(167,139,250,0.02) 0%, transparent 50%);
+}
+.epilogue-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, var(--text-cream), var(--gold-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.epilogue-text {
+  font-family: var(--font-accent);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 300;
+  line-height: 2;
+  max-width: 650px;
+  margin: 0 auto;
+  color: var(--text-dim);
+}
+
+/* ============================================================
+   COLOPHON
+   ============================================================ */
+.colophon {
+  padding: 5rem 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  z-index: 2;
+}
+.colophon-brand {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.colophon-location {
+  font-family: var(--font-accent);
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+.colophon p {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  line-height: 2.2;
+}
+.colophon-logo {
+  margin-top: 2rem;
+  display: inline-block;
+}
+.colophon-logo svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.3;
+}
+
+/* ============================================================
+   FLOATING ELEMENTS
+   ============================================================ */
+.float-symbol {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.03);
+  letter-spacing: 0.2em;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   THEME TOGGLE & MOBILE NAV
+   ============================================================ */
+.theme-toggle {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  z-index: 1002;
+  width: 70px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(6,6,11,0.8);
+  display: flex;
+  align-items: center;
+  padding: 3px 8px;
+  gap: 6px;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+.theme-toggle-knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--ember-glow));
+  box-shadow: 0 0 12px rgba(201,168,76,0.6);
+  transition: transform 0.25s ease;
+}
+.theme-toggle-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+body.theme-light .theme-toggle {
+  background: rgba(245,240,232,0.9);
+  border-color: rgba(0,0,0,0.06);
+}
+body.theme-light .theme-toggle-knob {
+  transform: translateX(26px);
+  background: linear-gradient(135deg, #1a1714, #6a6258);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+body.theme-light .theme-toggle-label {
+  color: var(--text-dim);
+}
+
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 0.8rem;
+    left: 1rem;
+  }
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    background: linear-gradient(180deg, rgba(6,6,11,0.85), rgba(6,6,11,0.98));
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 0.6rem 0.75rem calc(0.8rem + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-nav-link {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.14);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(10,10,18,0.9);
+    white-space: nowrap;
+  }
+  .mobile-nav-link.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+}
+
+/* ============================================================
+   FULL-BLEED IMAGES
+   ============================================================ */
+.full-image {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.full-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 8s ease;
+}
+.full-image:hover img {
+  transform: scale(1.03);
+}
+.full-image-tall { height: 75vh; min-height: 450px; }
+.full-image-medium { height: 55vh; min-height: 350px; }
+.full-image-short { height: 40vh; min-height: 280px; }
+.full-image-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.full-image-overlay-dark {
+  background: linear-gradient(180deg, rgba(6,6,11,0.3) 0%, rgba(6,6,11,0.1) 40%, rgba(6,6,11,0.6) 80%, rgba(6,6,11,1) 100%);
+}
+.full-image-overlay-top {
+  background: linear-gradient(180deg, rgba(6,6,11,1) 0%, rgba(6,6,11,0.1) 30%, rgba(6,6,11,0.1) 70%, rgba(6,6,11,1) 100%);
+}
+.full-image-overlay-ember {
+  background: linear-gradient(180deg, rgba(6,6,11,0.8) 0%, rgba(15,11,8,0.3) 40%, rgba(15,11,8,0.5) 70%, rgba(6,6,11,1) 100%);
+  mix-blend-mode: normal;
+}
+.full-image-overlay-teal {
+  background: linear-gradient(180deg, rgba(6,6,11,0.8) 0%, rgba(6,13,16,0.3) 40%, rgba(6,13,16,0.5) 70%, rgba(6,6,11,1) 100%);
+}
+.full-image-overlay-violet {
+  background: linear-gradient(180deg, rgba(6,6,11,0.8) 0%, rgba(10,6,16,0.3) 40%, rgba(10,6,16,0.5) 70%, rgba(6,6,11,1) 100%);
+}
+.full-image-caption {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: rgba(240,236,226,0.4);
+  letter-spacing: 0.1em;
+  z-index: 2;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.full-image-text {
+  position: absolute;
+  bottom: 3rem;
+  left: 2rem;
+  right: 2rem;
+  z-index: 2;
+  max-width: 600px;
+}
+.full-image-text h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 900;
+  color: var(--text-cream);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+.full-image-text p {
+  font-family: var(--font-accent);
+  font-size: 1rem;
+  color: rgba(240,236,226,0.7);
+  text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+
+/* Inline story images */
+.story-image {
+  margin: 2.5rem -2rem;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+}
+.story-image img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.85) contrast(1.05);
+  transition: filter 0.6s ease, transform 6s ease;
+}
+.story-image:hover img {
+  filter: brightness(0.95) contrast(1.05);
+  transform: scale(1.02);
+}
+.story-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,6,11,0.2) 0%, rgba(6,6,11,0.5) 100%);
+  pointer-events: none;
+}
+.story-image-caption {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: rgba(240,236,226,0.5);
+  letter-spacing: 0.08em;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .full-image-tall { height: 50vh; }
+  .full-image-medium { height: 40vh; }
+  .full-image-short { height: 30vh; }
+  .story-image { margin: 2rem -1.5rem; }
+  .story-image img { height: 250px; }
+}
+
+/* ============================================================
+   GRAIN TEXTURE
+   ============================================================ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.35;
+}
+
+/* ============================================================
+   LIGHT THEME OVERRIDES
+   ============================================================ */
+body.theme-light {
+  --bg-void: #f5f0e8;
+  --bg-dark: #f5f0e8;
+  --bg-ink: #f8f4ee;
+  --bg-charcoal: #e5ddcf;
+  --text-cream: #1a1714;
+  --text-dim: #6a6258;
+  --text-muted: #9a9288;
+}
+
+body.theme-light {
+  background: var(--bg-void);
+  color: var(--text-cream);
+}
+
+body.theme-light .cover,
+body.theme-light .prologue,
+body.theme-light .cast-section,
+body.theme-light .story,
+body.theme-light .section,
+body.theme-light .epilogue,
+body.theme-light .stats-section,
+body.theme-light .pullquote,
+body.theme-light .colophon {
+  background: var(--bg-ink);
+}
+
+body.theme-light .era-ai,
+body.theme-light .era-agi,
+body.theme-light .era-asi {
+  background: linear-gradient(180deg, var(--bg-ink) 0%, var(--bg-charcoal) 50%, var(--bg-ink) 100%);
+}
+
+body.theme-light .full-image-overlay-ember,
+body.theme-light .full-image-overlay-teal,
+body.theme-light .full-image-overlay-violet,
+body.theme-light .full-image-overlay-dark {
+  background: linear-gradient(180deg, rgba(245,240,232,0.8) 0%, rgba(245,240,232,0.3) 40%, rgba(245,240,232,0.8) 100%);
+}
+
+body.theme-light .epilogue-title {
+  background: linear-gradient(135deg, #1a1714, #6a6258);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.theme-light .colophon {
+  border-top-color: rgba(0,0,0,0.06);
+}
+
+body.theme-light .nav-dot {
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.12);
+}
+body.theme-light .nav-dot:hover,
+body.theme-light .nav-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+body.theme-light .story-inner {
+  background: rgba(245,240,232,0.94);
+  border-color: rgba(0,0,0,0.06);
+}
+
+body.theme-light .cast-card,
+body.theme-light .stat {
+  background: rgba(245,240,232,0.94);
+  border-color: rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .section { padding: 5rem 1.5rem; }
+  .story { padding: 3rem 1.5rem; }
+  .pullquote { padding: 4rem 1.5rem; }
+  .nav { right: 0.75rem; }
+  .nav-dot { width: 8px; height: 8px; }
+  .nav-dot::after { display: none; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .cast-grid { grid-template-columns: 1fr; }
+  .cursor-dot, .cursor-glow { display: none; }
+  body { cursor: auto; }
+  .cover-orb-1 { width: 200px; height: 200px; }
+  .cover-orb-2 { width: 150px; height: 150px; }
+  .cover-orb-3 { width: 120px; height: 120px; }
+  /* Reduce large numerals behind chapter headings to avoid overlap on small screens */
+  .chapter-header {
+    padding: 6rem 1.5rem 4rem;
+    justify-content: flex-end;
+  }
+  .chapter-number {
+    font-size: clamp(4.5rem, 16vw, 8rem);
+    opacity: 0.03;
+  }
+  .chapter-desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .cover-label::before, .cover-label::after { width: 20px; }
+}
+
+/* ============================================================
+   SPECIAL EFFECTS
+   ============================================================ */
+@keyframes gentleBreathe {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.05); }
+}
+
+.glow-text {
+  text-shadow: 0 0 40px currentColor;
+}
+
+/* Animated border gradient */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--ember), var(--gold), var(--teal), var(--violet));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.gradient-border:hover::before { opacity: 0.3; }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle (light / dark) -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+  <span class="theme-toggle-knob"></span>
+  <span class="theme-toggle-label">Dark</span>
+</button>
+
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div class="loader" id="loader">
+  <p class="loader-brand">Futurelab Studios</p>
+  <div class="loader-ring"></div>
+  <p class="loader-text">Preparing your journey into the future&hellip;</p>
+</div>
+
+<!-- ============================================================
+     CUSTOM CURSOR
+     ============================================================ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============================================================
+     MOUSE GLOW
+     ============================================================ -->
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<!-- ============================================================
+     PARTICLE CANVAS
+     ============================================================ -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- ============================================================
+     PROGRESS BAR
+     ============================================================ -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ============================================================
+     MOBILE NAV (CHAPTER CHIPS)
+     ============================================================ -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-link" data-target="cover">Cover</button>
+  <button class="mobile-nav-link" data-target="prologue">Prologue</button>
+  <button class="mobile-nav-link" data-target="cast">Cast</button>
+  <button class="mobile-nav-link" data-target="ch1">AI</button>
+  <button class="mobile-nav-link" data-target="ch2">AGI</button>
+  <button class="mobile-nav-link" data-target="ch3">ASI</button>
+  <button class="mobile-nav-link" data-target="epilogue">Epilogue</button>
+</nav>
+
+<!-- ============================================================
+     NAV DOTS
+     ============================================================ -->
+<nav class="nav" id="nav">
+  <div class="nav-dot" data-label="Cover" data-target="cover"></div>
+  <div class="nav-dot" data-label="Prologue" data-target="prologue"></div>
+  <div class="nav-dot" data-label="The Cast" data-target="cast"></div>
+  <div class="nav-dot" data-label="AI &mdash; The Whisper" data-target="ch1"></div>
+  <div class="nav-dot" data-label="AGI &mdash; The Awakening" data-target="ch2"></div>
+  <div class="nav-dot" data-label="ASI &mdash; Beyond" data-target="ch3"></div>
+  <div class="nav-dot" data-label="Epilogue" data-target="epilogue"></div>
+</nav>
+
+<!-- ============================================================
+     COVER
+     ============================================================ -->
+<section class="cover" id="cover">
+  <div class="cover-orb cover-orb-1"></div>
+  <div class="cover-orb cover-orb-2"></div>
+  <div class="cover-orb cover-orb-3"></div>
+
+  <!-- SVG Neural Constellation -->
+  <svg class="cover-constellation" width="800" height="600" viewBox="0 0 800 600" style="position:absolute; opacity:0.04; z-index:0;" aria-hidden="true">
+    <defs>
+      <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g stroke="rgba(201,168,76,0.3)" stroke-width="0.5" fill="none">
+      <line x1="200" y1="150" x2="350" y2="200"><animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite"/></line>
+      <line x1="350" y1="200" x2="500" y2="180"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="5s" repeatCount="indefinite"/></line>
+      <line x1="500" y1="180" x2="600" y2="280"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="6s" repeatCount="indefinite"/></line>
+      <line x1="350" y1="200" x2="400" y2="350"><animate attributeName="opacity" values="0.3;0.6;0.3" dur="4.5s" repeatCount="indefinite"/></line>
+      <line x1="400" y1="350" x2="250" y2="400"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="5.5s" repeatCount="indefinite"/></line>
+      <line x1="400" y1="350" x2="550" y2="420"><animate attributeName="opacity" values="0.3;0.5;0.3" dur="3.5s" repeatCount="indefinite"/></line>
+      <line x1="250" y1="400" x2="150" y2="350"><animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite"/></line>
+      <line x1="600" y1="280" x2="650" y2="400"><animate attributeName="opacity" values="0.3;0.5;0.3" dur="5s" repeatCount="indefinite"/></line>
+      <line x1="200" y1="150" x2="150" y2="250"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="6s" repeatCount="indefinite"/></line>
+      <line x1="150" y1="250" x2="250" y2="400"><animate attributeName="opacity" values="0.3;0.6;0.3" dur="4.5s" repeatCount="indefinite"/></line>
+    </g>
+    <g fill="url(#nodeGlow)">
+      <circle cx="200" cy="150" r="5"><animate attributeName="r" values="3;6;3" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="350" cy="200" r="7"><animate attributeName="r" values="5;8;5" dur="5s" repeatCount="indefinite"/></circle>
+      <circle cx="500" cy="180" r="4"><animate attributeName="r" values="3;5;3" dur="3.5s" repeatCount="indefinite"/></circle>
+      <circle cx="600" cy="280" r="5"><animate attributeName="r" values="4;6;4" dur="4.5s" repeatCount="indefinite"/></circle>
+      <circle cx="400" cy="350" r="8"><animate attributeName="r" values="6;10;6" dur="6s" repeatCount="indefinite"/></circle>
+      <circle cx="250" cy="400" r="4"><animate attributeName="r" values="3;5;3" dur="5s" repeatCount="indefinite"/></circle>
+      <circle cx="550" cy="420" r="5"><animate attributeName="r" values="4;7;4" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="150" cy="250" r="3"><animate attributeName="r" values="2;4;2" dur="5.5s" repeatCount="indefinite"/></circle>
+      <circle cx="650" cy="400" r="4"><animate attributeName="r" values="3;5;3" dur="4.5s" repeatCount="indefinite"/></circle>
+      <circle cx="150" cy="350" r="3"><animate attributeName="r" values="2;4;2" dur="6s" repeatCount="indefinite"/></circle>
+    </g>
+  </svg>
+
+  <span class="cover-glitch cover-glitch-1">01001000 01010101 01001101 01000001 01001110</span>
+  <span class="cover-glitch cover-glitch-2">SINGULARITY_PROTOCOL // INIT_2026</span>
+
+  <p class="cover-label">A Digital Magazine &middot; Futurelab Studios 2026</p>
+  <h1 class="cover-title">
+    <span class="cover-title-line">THE</span>
+    <span class="cover-title-line">SHIFT</span>
+  </h1>
+  <p class="cover-subtitle">Five ordinary lives. Three eras of intelligence. The most extraordinary transformation in human history &mdash; told from the ground up.</p>
+  <p class="cover-meta">AI &rarr; AGI &rarr; ASI &nbsp;&middot;&nbsp; India &nbsp;&middot;&nbsp; Bangladesh &nbsp;&middot;&nbsp; Kenya &nbsp;&middot;&nbsp; The Global South</p>
+  <div class="cover-scroll">
+    <span>Begin the journey</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROLOGUE
+     ============================================================ -->
+<section class="section prologue" id="prologue">
+  <div class="section-narrow">
+    <div class="prologue-text anim">
+      <p>It is 5:47 in the morning in Madurai, and Lakshmi's alarm has not gone off yet, but the roosters have. She rises, as she has for twenty years, to make the journey to the wholesale market before the good tomatoes are taken.</p>
+    </div>
+    <div style="height:2rem"></div>
+    <div class="prologue-text anim anim-delay-1">
+      <p><span class="dim">She does not know it yet. None of them do.</span></p>
+    </div>
+    <div style="height:2rem"></div>
+    <div class="prologue-text anim anim-delay-2">
+      <p><span class="dim">Not Ravi, threading his motorbike through Bangalore's four-in-the-morning darkness toward his first delivery. Not Aminah, whose fingers already ache before the factory bell rings in Dhaka. Not Joseph, studying the sky over his two acres outside Nairobi, praying the rains will come. Not Devi, sixteen and awake in Lucknow, solving physics problems by phone-light because the electricity failed again.</span></p>
+    </div>
+    <div style="height:2rem"></div>
+    <div class="prologue-text anim anim-delay-3">
+      <p><em>Five ordinary lives. Five countries. One species, standing at the edge of the most extraordinary transformation in human history.</em></p>
+    </div>
+    <div style="height:2rem"></div>
+    <div class="prologue-text anim anim-delay-4">
+      <p>This is their story. And it is yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Separator -->
+<div class="separator">
+  <div class="separator-line separator-line-gold"></div>
+  <div class="separator-diamond separator-diamond-gold"></div>
+  <div class="separator-line separator-line-gold"></div>
+</div>
+
+<!-- ============================================================
+     STATS: THE LANDSCAPE
+     ============================================================ -->
+<section class="stats-section">
+  <div class="section-wide">
+    <p class="t-label anim" style="text-align:center; color:var(--gold); margin-bottom:3rem;">The Landscape &middot; 2026</p>
+    <div class="stats-row">
+      <div class="stat anim">
+        <div class="stat-number gold" data-count="57" data-suffix="%">0%</div>
+        <div class="stat-label">of India has adopted AI tools &mdash; the highest rate on Earth, surpassing the United States</div>
+      </div>
+      <div class="stat anim anim-delay-1">
+        <div class="stat-number ember" data-count="228" data-suffix="B">0</div>
+        <div class="stat-label">digital transactions on India's UPI in 2025 alone &mdash; the world's largest payment system</div>
+      </div>
+      <div class="stat anim anim-delay-2">
+        <div class="stat-number teal" data-count="15" data-suffix="M+">0</div>
+        <div class="stat-label">farmers in India now use AI-powered tools for crop disease detection and yield prediction</div>
+      </div>
+      <div class="stat anim anim-delay-3">
+        <div class="stat-number violet" data-count="890" data-suffix="+">0</div>
+        <div class="stat-label">generative AI startups have launched in India, representing a 3.7x growth surge</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE CAST
+     ============================================================ -->
+<section class="section cast-section" id="cast">
+  <div class="section-wide">
+    <div class="cast-header">
+      <p class="t-label anim" style="color:var(--gold); margin-bottom:1rem;">The Cast</p>
+      <h2 class="t-display anim anim-delay-1" style="font-size:clamp(2rem,4vw,3.2rem);">Five Lives. One Future.</h2>
+      <p class="t-accent anim anim-delay-2" style="font-size:1.1rem; color:var(--text-dim); margin-top:1rem; max-width:500px; margin-left:auto; margin-right:auto;">They are not special. That is the point. They are vendors, drivers, factory workers, farmers, students. They are a billion people.</p>
+    </div>
+    <div class="cast-grid">
+      <div class="cast-card anim">
+        <div class="cast-avatar">L</div>
+        <div class="cast-name">Lakshmi</div>
+        <div class="cast-meta">45 &middot; Vegetable Vendor &middot; Madurai, Tamil Nadu</div>
+        <div class="cast-desc">She has sold vegetables at Mattuthavani market for twenty years. Her world is the market, her phone, her family. She dropped out of school at fourteen. She does not speak English. She is among the sharpest businesspeople you will ever meet.</div>
+      </div>
+      <div class="cast-card anim anim-delay-1">
+        <div class="cast-avatar">R</div>
+        <div class="cast-name">Ravi</div>
+        <div class="cast-meta">28 &middot; Delivery Driver &middot; Bangalore, Karnataka</div>
+        <div class="cast-desc">Studied till twelfth standard but could not afford college. Drives for Swiggy and Zomato. Earns eighteen thousand rupees a month &mdash; enough to rent a room, not enough to build a life. Dreams of working in tech. Practices English at red lights.</div>
+      </div>
+      <div class="cast-card anim anim-delay-2">
+        <div class="cast-avatar">A</div>
+        <div class="cast-name">Aminah</div>
+        <div class="cast-meta">22 &middot; Garment Worker &middot; Dhaka, Bangladesh</div>
+        <div class="cast-desc">Ten-hour shifts in a factory that supplies European fashion brands. Sends most of her salary home to her family's village. Has a notebook filled with dress designs she has never shown anyone. Her fingers hurt constantly.</div>
+      </div>
+      <div class="cast-card anim anim-delay-3">
+        <div class="cast-avatar">J</div>
+        <div class="cast-name">Joseph</div>
+        <div class="cast-meta">35 &middot; Smallholder Farmer &middot; Nairobi Outskirts, Kenya</div>
+        <div class="cast-desc">Farms two acres of maize and beans. Worries about rainfall, worries about prices, worries about his children's school fees. His phone is his most valuable farming tool, though he only discovered this recently.</div>
+      </div>
+      <div class="cast-card anim anim-delay-4">
+        <div class="cast-avatar">D</div>
+        <div class="cast-name">Devi</div>
+        <div class="cast-meta">16 &middot; Student &middot; Lucknow, Uttar Pradesh</div>
+        <div class="cast-desc">First girl in her family to attend school past tenth standard. Brilliant at mathematics, limited by a school where the physics teacher has not updated his notes since 2009. Studies by phone-light during power cuts. Wants to be an engineer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PHOTO: THE GLOBAL SOUTH — Transition into Chapter I
+     ============================================================ -->
+<div class="full-image full-image-medium anim-scale">
+  <img src="https://images.unsplash.com/photo-1750949135629-0345e050c353?auto=format&fit=crop&w=1600&q=80" alt="A bustling Indian street market — warm lights, color, and the pulse of daily life" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-ember"></div>
+  <div class="full-image-text">
+    <h3>The World They Wake Up In</h3>
+    <p>A billion screens. A billion lives. The quiet revolution has already begun.</p>
+  </div>
+  <span class="full-image-caption">Photo: Vinit Patel / Unsplash</span>
+</div>
+
+<!-- ============================================================
+     CHAPTER I: AI — THE PRESENT
+     ============================================================ -->
+<section class="chapter-header era-ai" id="ch1">
+  <!-- Chapter Illustration: Abstract radiating phone/light -->
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="aiGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ff9966" stop-opacity="0.4"/>
+          <stop offset="50%" stop-color="#d4764e" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#d4764e" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="200" r="180" fill="url(#aiGlow)">
+        <animate attributeName="r" values="160;200;160" dur="8s" repeatCount="indefinite"/>
+      </circle>
+      <g stroke="#d4764e" stroke-width="0.5" fill="none" opacity="0.3">
+        <circle cx="200" cy="200" r="60"><animate attributeName="r" values="55;65;55" dur="4s" repeatCount="indefinite"/></circle>
+        <circle cx="200" cy="200" r="100"><animate attributeName="r" values="95;105;95" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="200" cy="200" r="140"><animate attributeName="r" values="135;145;135" dur="6s" repeatCount="indefinite"/></circle>
+      </g>
+      <!-- Rays -->
+      <g stroke="#ff9966" stroke-width="0.3" opacity="0.2">
+        <line x1="200" y1="200" x2="200" y2="20"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="350" y2="70"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="380" y2="200"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3.5s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="350" y2="330"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4.5s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="200" y2="380"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="5s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="50" y2="330"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3.8s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="20" y2="200"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4.2s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="200" x2="50" y2="70"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="5.5s" repeatCount="indefinite"/></line>
+      </g>
+      <!-- Center device shape -->
+      <rect x="185" y="170" width="30" height="55" rx="4" fill="none" stroke="#ff9966" stroke-width="1" opacity="0.4">
+        <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <circle cx="200" cy="190" r="2" fill="#ff9966" opacity="0.5">
+        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+
+  <div class="chapter-number anim-scale">I</div>
+  <p class="chapter-era anim">Chapter One &middot; 2024 &ndash; 2026</p>
+  <h2 class="chapter-title anim anim-delay-1">The Whisper</h2>
+  <p class="chapter-desc anim anim-delay-2">Narrow AI is already here. It arrived not with a thunderclap, but with a notification ping. These are the small revolutions happening in pockets and on screens across the Global South &mdash; right now.</p>
+</section>
+
+<!-- Lakshmi: AI -->
+<div class="story anim" style="background:linear-gradient(180deg, #0f0b08 0%, var(--bg-dark) 100%);">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-lakshmi">L</div>
+      <div>
+        <div class="story-name">Lakshmi</div>
+        <div class="story-loc">Mattuthavani Market, Madurai</div>
+      </div>
+    </div>
+    <p>She discovered Google Lens six months ago through her son. She pointed her phone at the English-language notice tacked to the market office wall &mdash; something about new GST rules that every vendor was panicking about but nobody could fully read. The Tamil that appeared on her screen was not perfect, but it was enough.</p>
+    <p>For the first time in thirty years of working in this market, Lakshmi did not need to ask someone to explain an official document. She stood there for a full minute, rereading the translation, and felt something shift inside her chest. A door opening to a room she had been locked out of her entire life.</p>
+    <p>Now she uses it on everything. Medicine labels. Bank notices. The English menus at the restaurant her daughter wants to try. The world has not changed, but her access to it has. She tells her neighbor: <strong>"It is like someone gave me new eyes."</strong></p>
+  </div>
+</div>
+
+<!-- Photo: Bangalore Streets -->
+<div class="full-image full-image-short anim">
+  <img src="https://images.unsplash.com/photo-1754257503656-58b822d78e28?auto=format&fit=crop&w=1600&q=80" alt="A scooter cuts through the busy streets of Bangalore at dawn" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-dark"></div>
+  <span class="full-image-caption">Bangalore, Karnataka &middot; Photo: Sounak Mukherjee / Unsplash</span>
+</div>
+
+<!-- Ravi: AI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-ravi">R</div>
+      <div>
+        <div class="story-name">Ravi</div>
+        <div class="story-loc">Koramangala, Bangalore</div>
+      </div>
+    </div>
+    <p>The algorithm is his boss. It tells him where to go, what to pick up, which route to take, and how many minutes he has before a penalty. He earns eighteen thousand rupees a month. The app's AI optimizes his routes so well that he can sometimes squeeze in twenty-two deliveries instead of eighteen. Those four extra deliveries are the difference between paying rent and having money left for food.</p>
+    <p>But three months ago, Ravi found something else. An AI-powered English tutor on his phone. Every red light, every minute spent waiting at a restaurant counter, he practices. Pronunciation drills. Grammar. Vocabulary. The AI is patient in a way no teacher he has ever had was patient. It never sighs. It never looks disappointed. It explains the same thing fourteen different ways until one of them clicks.</p>
+    <p><strong>"Hello, my name is Ravi, and I am looking for an opportunity in warehouse management."</strong> He practices this sentence every morning. His accent is getting better. The dream &mdash; a logistics coordinator role at a tech company &mdash; is no longer a fantasy. It is a plan.</p>
+  </div>
+</div>
+
+<!-- Photo: Textile Factory -->
+<div class="full-image full-image-short anim">
+  <img src="https://images.unsplash.com/photo-1742280922852-91cb768b7ec0?auto=format&fit=crop&w=1600&q=80" alt="A seamstress works diligently at a textile factory sewing station" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-dark"></div>
+  <span class="full-image-caption">Garment District, Dhaka &middot; Photo: EqualStock / Unsplash</span>
+</div>
+
+<!-- Aminah: AI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-aminah">A</div>
+      <div>
+        <div class="story-name">Aminah</div>
+        <div class="story-loc">Gazipur Industrial Zone, Dhaka</div>
+      </div>
+    </div>
+    <p>Last year, the factory installed AI quality-inspection cameras along the production line. They catch defects Aminah would have missed &mdash; a misaligned stitch, a fabric flaw invisible to a tired eye at hour nine. Her output metrics improved by fifteen percent. Her pay did not change.</p>
+    <p>She knows what the cameras mean. Over three hundred and fifty factories in Bangladesh have started automating. The cutting department on the floor below hers has already lost nearly half its workers. She hears the numbers: forty percent of the workforce at risk. She feels the number differently. It sits in her stomach like a stone.</p>
+    <p>But at night, in the room she shares with two other women, Aminah watches AI-translated tutorials on pattern design and fashion illustration. The tutorials are in English, but the AI dubs them into Bangla in a voice that sounds almost natural. She has a notebook &mdash; worn, dog-eared &mdash; filled with original dress designs. She has never shown them to anyone. <strong>She is teaching herself to be the thing the machines cannot replace: a creator.</strong></p>
+  </div>
+</div>
+
+<!-- Photo: African Farmland -->
+<div class="full-image full-image-short anim">
+  <img src="https://images.unsplash.com/photo-1708798877887-4191c7777b50?auto=format&fit=crop&w=1600&q=80" alt="Golden sunlight falls over a maize field — the land Joseph knows by heart" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-dark"></div>
+  <span class="full-image-caption">Kangundo Road, Nairobi Outskirts &middot; Photo: Oksana Rublenko / Unsplash</span>
+</div>
+
+<!-- Joseph: AI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-joseph">J</div>
+      <div>
+        <div class="story-name">Joseph</div>
+        <div class="story-loc">Kangundo Road, Nairobi Outskirts</div>
+      </div>
+    </div>
+    <p>A neighbor showed him the PlantVillage app at church on Sunday. The next morning, Joseph photographed the yellowing leaves on his maize &mdash; the leaves that had kept him awake at night, wondering if he was going to lose the entire crop. The app told him in three seconds what an agricultural extension officer would have told him in three weeks, if one ever came: Fall Armyworm. It suggested a treatment, showed him where to buy the pesticide at the cheapest price within twenty kilometers, and even estimated the yield loss he could prevent by acting within forty-eight hours.</p>
+    <p>His yield that season was thirty percent higher than the year before. He told his wife that evening, holding the phone like a sacred object: <strong>"This phone is becoming the best farmhand I have ever had."</strong></p>
+    <p>Joseph now checks three AI-powered apps every morning before breakfast: one for weather, one for crop health, one for market prices. He does this with the same ritual seriousness with which he reads his Bible. He does not call it artificial intelligence. He calls it "the advice."</p>
+  </div>
+</div>
+
+<!-- Photo: Phone Light in the Dark -->
+<div class="full-image full-image-short anim">
+  <img src="https://images.unsplash.com/photo-1510717029971-27681a0e9da9?auto=format&fit=crop&w=1600&q=80" alt="A phone screen glows in darkness — the light of knowledge piercing through" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-dark"></div>
+  <span class="full-image-caption">A screen in the dark &middot; Photo: Andrew Guan / Unsplash</span>
+</div>
+
+<!-- Devi: AI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-devi">D</div>
+      <div>
+        <div class="story-name">Devi</div>
+        <div class="story-loc">Aminabad, Lucknow</div>
+      </div>
+    </div>
+    <p>The electricity cuts out at nine-thirty, as it does most nights. Devi does not even flinch. She switches to her phone, and the screen casts a blue-white glow on the ceiling of the room she shares with her younger brother. She has a question about electromagnetic induction that her physics teacher could not answer today, because her physics teacher does not understand electromagnetic induction particularly well.</p>
+    <p>She types the question into ChatGPT. The answer arrives in a way that makes the molecules in her brain rearrange themselves: the AI explains it using the analogy of a bicycle dynamo &mdash; the exact bicycle dynamo on the bicycle she rides to school. Something unlocks. Not just the concept, but a feeling: she belongs in this world of physics and engineering. She is not an outsider looking in. She is someone who understands.</p>
+    <p>She reads ahead three chapters that night. When her mother asks why she is still awake at midnight, Devi says: <strong>"Because for the first time, I have a teacher who goes at my speed."</strong></p>
+    <p>In a village school with outdated textbooks and overworked teachers, the gap between Devi and a student at Doon School was a canyon. That canyon has just developed its first bridge.</p>
+  </div>
+</div>
+
+<!-- Pullquote -->
+<div class="pullquote anim">
+  <p class="pullquote-text">"What is happening right now, quietly, on a billion screens across the developing world, is the largest redistribution of <span class="highlight-gold">access to knowledge</span> in human history. And we are only at the very beginning."</p>
+</div>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="stats-row">
+    <div class="stat anim">
+      <div class="stat-number ember" data-count="70" data-suffix="%">0%</div>
+      <div class="stat-label">of children in low-income countries cannot read simple text by age 10</div>
+    </div>
+    <div class="stat anim anim-delay-1">
+      <div class="stat-number teal" data-count="99" data-suffix="%">0%</div>
+      <div class="stat-label">accuracy achieved by AI crop-disease detection apps in field tests across India and Nigeria</div>
+    </div>
+    <div class="stat anim anim-delay-2">
+      <div class="stat-number gold" data-count="130" data-suffix="K">0</div>
+      <div class="stat-label">health centers in India connected through AI-powered telemedicine via eSanjeevani</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PHOTO: THE AWAKENING — Transition into Chapter II
+     ============================================================ -->
+<div class="full-image full-image-medium anim-scale">
+  <img src="https://images.unsplash.com/photo-1644325349124-d1756b79dd42?auto=format&fit=crop&w=1600&q=80" alt="Abstract blue neural network — connections forming, intelligence emerging" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-teal"></div>
+  <div class="full-image-text">
+    <h3>The Networks Awaken</h3>
+    <p>Intelligence that thinks, reasons, and dreams &mdash; as flexibly as any human mind.</p>
+  </div>
+  <span class="full-image-caption">Photo: Conny Schneider / Unsplash</span>
+</div>
+
+<!-- ============================================================
+     CHAPTER II: AGI — THE AWAKENING
+     ============================================================ -->
+<section class="chapter-header era-agi" id="ch2">
+  <!-- Chapter Illustration: Brain-circuit hybrid -->
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="agiGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#47d4e8" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#2b9eb3" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="200" r="150" fill="url(#agiGlow)">
+        <animate attributeName="r" values="140;160;140" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Brain outline (abstract) -->
+      <g stroke="#47d4e8" stroke-width="0.8" fill="none" opacity="0.3">
+        <path d="M200,80 C260,80 300,120 300,170 C300,200 280,230 260,250 C240,270 220,290 200,310 C180,290 160,270 140,250 C120,230 100,200 100,170 C100,120 140,80 200,80Z">
+          <animate attributeName="d" dur="8s" repeatCount="indefinite"
+            values="M200,80 C260,80 300,120 300,170 C300,200 280,230 260,250 C240,270 220,290 200,310 C180,290 160,270 140,250 C120,230 100,200 100,170 C100,120 140,80 200,80Z;
+                    M200,75 C265,75 305,115 305,168 C305,198 285,232 262,252 C242,272 222,292 200,315 C178,292 158,272 138,252 C115,232 95,198 95,168 C95,115 135,75 200,75Z;
+                    M200,80 C260,80 300,120 300,170 C300,200 280,230 260,250 C240,270 220,290 200,310 C180,290 160,270 140,250 C120,230 100,200 100,170 C100,120 140,80 200,80Z"/>
+        </path>
+        <!-- Internal circuit lines -->
+        <line x1="150" y1="150" x2="200" y2="180"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="180" x2="250" y2="150"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="4s" repeatCount="indefinite"/></line>
+        <line x1="200" y1="180" x2="200" y2="240"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="3.5s" repeatCount="indefinite"/></line>
+        <line x1="170" y1="200" x2="230" y2="200"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="4.5s" repeatCount="indefinite"/></line>
+        <line x1="160" y1="170" x2="180" y2="220"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="5s" repeatCount="indefinite"/></line>
+        <line x1="240" y1="170" x2="220" y2="220"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="3.8s" repeatCount="indefinite"/></line>
+      </g>
+      <!-- Circuit nodes -->
+      <g fill="#47d4e8" opacity="0.4">
+        <circle cx="200" cy="180" r="4"><animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="150" cy="150" r="3"><animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/></circle>
+        <circle cx="250" cy="150" r="3"><animate attributeName="r" values="2;4;2" dur="3.5s" repeatCount="indefinite"/></circle>
+        <circle cx="200" cy="240" r="3"><animate attributeName="r" values="2;4;2" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="170" cy="200" r="2"><animate attributeName="r" values="1.5;3;1.5" dur="4.5s" repeatCount="indefinite"/></circle>
+        <circle cx="230" cy="200" r="2"><animate attributeName="r" values="1.5;3;1.5" dur="3.8s" repeatCount="indefinite"/></circle>
+      </g>
+    </svg>
+  </div>
+
+  <div class="chapter-number anim-scale">II</div>
+  <p class="chapter-era anim">Chapter Two &middot; The Near Future</p>
+  <h2 class="chapter-title anim anim-delay-1">The Awakening</h2>
+  <p class="chapter-desc anim anim-delay-2">Artificial General Intelligence does not arrive with a bang. It arrives with a whisper &mdash; and then the whisper becomes a roar. The machine can now think, reason, plan, and learn as flexibly as any human. Everything changes.</p>
+</section>
+
+<!-- Timeline -->
+<div class="timeline-bar anim" style="padding-top:1rem; padding-bottom:3rem;">
+  <div class="timeline-track">
+    <div class="timeline-fill" style="width:0%; --target-width:45%; background:linear-gradient(90deg, var(--ember), var(--teal));"></div>
+  </div>
+  <div class="timeline-labels">
+    <span class="timeline-label" style="color:var(--ember);">AI &middot; Now</span>
+    <span class="timeline-label" style="color:var(--teal);">AGI &middot; Near</span>
+    <span class="timeline-label" style="color:var(--violet-bright);">ASI &middot; Beyond</span>
+  </div>
+</div>
+
+<!-- Lakshmi: AGI -->
+<div class="story anim" style="background:linear-gradient(180deg, #060d10 0%, var(--bg-dark) 100%);">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-lakshmi">L</div>
+      <div>
+        <div class="story-name">Lakshmi</div>
+        <div class="story-loc">Mattuthavani Market, Madurai &mdash; The AGI Era</div>
+      </div>
+    </div>
+    <p>The assistant on her phone is different now. It does not just translate &mdash; it <em>understands</em>. It analyzed two years of her sales patterns, cross-referenced wholesale prices, weather data, local festival calendars, and transport logistics across southern India. It speaks to her in Tamil, in a voice warm enough to trust.</p>
+    <p>"Lakshmi-amma, buy forty kilos of onions today. The price will rise sharply next week &mdash; there is a transport disruption forming in Maharashtra." She is skeptical. She buys thirty. The price rises seventy percent. She never doubts it again.</p>
+    <p>Within six months, her daily profit has tripled. But the real transformation is not the money. The AGI helps her organize twelve other vendors into a purchasing cooperative. It drafts the registration paperwork in English, explains every clause in Tamil, negotiates bulk rates with wholesalers using market data none of them could have compiled in a lifetime, and manages the cooperative's accounting in real time. Lakshmi cannot read the English documents &mdash; but she does not need to. <strong>The AGI reads them in English, thinks about them with the rigor of a corporate lawyer, and advocates for her interests better than any professional she could have afforded.</strong></p>
+    <p>Her granddaughter, age eight, has an AGI tutor. This tutor is better than the best teacher at the best school in Chennai. It knows every gap in the child's understanding, senses every flicker of lost attention, finds the exact analogy &mdash; from the child's own life, her own market, her own street &mdash; that makes a concept ignite. The granddaughter is learning at the pace of children at elite private schools. No &mdash; faster. Because this tutor never has thirty other students to divide its attention among.</p>
+    <p>The playing field has not merely leveled. For the first time in history, <strong>it has tilted toward the ones who were always left behind.</strong></p>
+  </div>
+</div>
+
+<!-- Ravi: AGI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-ravi">R</div>
+      <div>
+        <div class="story-name">Ravi</div>
+        <div class="story-loc">HSR Layout, Bangalore &mdash; The AGI Era</div>
+      </div>
+    </div>
+    <p>Ravi does not deliver food anymore. Autonomous vehicles handle last-mile delivery now. He was terrified for three months &mdash; the longest three months of his life, staring at his savings draining, wondering if everything he had built was going to dissolve.</p>
+    <p>Then the AGI that had been teaching him English presented him with something unexpected: a plan. Not a vague suggestion, but a detailed, step-by-step blueprint for a hyperlocal logistics platform serving Bangalore's restaurant supply chain &mdash; the exact gap in the market that Ravi, with his years of delivery experience, could see but never had the tools to fill.</p>
+    <p>The AGI did not just teach him to code. It coded alongside him, explaining every function, every design decision, every business trade-off with the patience of a mentor and the precision of a McKinsey consultant. When Ravi got stuck, the AGI did not give him the answer. It asked him questions until he found it himself.</p>
+    <p>The app launched. It works. Forty-three restaurants use it. Ravi's income went from eighteen thousand rupees a month to two lakh eighty thousand. He hired two people. He is looking at office space.</p>
+    <p>His mother called from the village last week. "What happened to you?" she asked, hearing something different in his voice &mdash; not pride exactly, but a kind of gravity, as if he had finally landed somewhere solid. <strong>"I learned, Amma,"</strong> he said. <strong>"I finally had a teacher who did not give up on me."</strong></p>
+  </div>
+</div>
+
+<!-- Aminah: AGI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-aminah">A</div>
+      <div>
+        <div class="story-name">Aminah</div>
+        <div class="story-loc">Dhaka &mdash; The AGI Era</div>
+      </div>
+    </div>
+    <p>The cutting floor is almost empty now. Automated systems do in minutes what used to take shifts. Sewing lines have shrunk. The numbers she feared came true: garment employment dropped by nearly a third across Bangladesh. Women she worked alongside for years have gone back to their villages, gone to the Gulf, or simply disappeared into the economy's cracks.</p>
+    <p>Aminah survived because of the notebook.</p>
+    <p>The worn, dog-eared notebook full of dress designs that she had never shown anyone became her ticket to a different life. An AGI-powered design platform saw her sketches &mdash; she photographed them on a whim, uploaded them &mdash; and recognized something the factory floor never could: <em>she had an eye.</em> A real, distinctive, startlingly original creative sensibility.</p>
+    <p>The AGI helped her turn rough sketches into production-ready patterns. It taught her about fabric weight, drape physics, color theory, sizing standards for markets from Tokyo to Toronto. It connected her with a micro-manufacturing cooperative and a digital marketplace. Her first collection &mdash; modern cuts with traditional Jamdani motifs &mdash; sold out in eleven days.</p>
+    <p><strong>She earns five times what the factory paid her.</strong> She works from a small studio that used to be someone's kitchen. She employs three women from her old production line. The notebook sits on her desk, open, no longer a secret.</p>
+  </div>
+</div>
+
+<!-- Joseph: AGI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-joseph">J</div>
+      <div>
+        <div class="story-name">Joseph</div>
+        <div class="story-loc">Kangundo Road, Kenya &mdash; The AGI Era</div>
+      </div>
+    </div>
+    <p>Joseph's farm is unrecognizable. Not physically &mdash; it is still two acres of red-brown earth under an enormous sky. But what happens on those acres has changed completely.</p>
+    <p>The AGI manages his soil like a doctor manages a patient. It knows the nitrogen content, phosphorus levels, moisture profile, and microbial activity at every point of his land. It controls the drip irrigation system &mdash; installed through a government subsidy program the AGI helped him find and apply for. Water usage has dropped by sixty percent. Yields have tripled.</p>
+    <p>But the transformation Joseph talks about most is not the crops. It is the market. The AGI connects him directly to buyers in Nairobi, Mombasa, even Dar es Salaam. It knows, in real time, what prices are offered at which market stalls, which restaurants need what produce, and the precise moment to sell for maximum return. The middlemen who used to claim half his revenue have become irrelevant.</p>
+    <p>Joseph has become a hub. Neighboring farmers bring their phones to his house on Sunday afternoons, and he shows them what he has learned. The AGI translates between Kikuyu, Swahili, and English effortlessly. <strong>Joseph is, without any formal credential, the most effective agricultural extension officer in his county.</strong></p>
+  </div>
+</div>
+
+<!-- Devi: AGI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-devi">D</div>
+      <div>
+        <div class="story-name">Devi</div>
+        <div class="story-loc">IIT Kanpur &mdash; The AGI Era</div>
+      </div>
+    </div>
+    <p>She got in.</p>
+    <p>Devi &mdash; first girl in her family to finish school, daughter of a man who drives an auto-rickshaw in Lucknow, product of a government school with chipped desks and missing ceiling fans &mdash; is at IIT Kanpur. Not because the bar was lowered. Because the AGI tutor raised her to it.</p>
+    <p>It had mapped every gap in her knowledge since she first started using it at sixteen. It built a personalized curriculum that was as rigorous as the coaching institutes in Kota, but infinitely more adaptive. When she struggled with organic chemistry, it discovered she was a visual-spatial thinker and rebuilt the entire module around three-dimensional molecular models she could rotate on her phone. When she hit motivational walls, it did not lecture her. It showed her the application essays of women from backgrounds like hers who were now at MIT and Stanford.</p>
+    <p>At IIT, Devi is not playing catch-up. She is among the top five in her cohort. Her research adviser said something to her last week that she keeps replaying: "Your intuition for problems is unusual. Where did you develop it?"</p>
+    <p><strong>"I had a teacher who went at my speed,"</strong> she said. The same words she had spoken at midnight to her mother, years ago, by phone-light. But now they carry the weight of proof.</p>
+  </div>
+</div>
+
+<!-- Pullquote -->
+<div class="pullquote anim">
+  <p class="pullquote-text">"AGI does not create equality. It creates <span class="highlight-teal">access</span>. And access, at this scale, in this many hands, will do what no government program, no NGO, no revolution has ever fully done: <span class="highlight-teal">unlock what was always there.</span>"</p>
+</div>
+
+<!-- Stats: AGI Impact -->
+<section class="stats-section">
+  <div class="stats-row">
+    <div class="stat anim">
+      <div class="stat-number teal" data-count="20" data-prefix="$" data-suffix="T">$0</div>
+      <div class="stat-label">projected addition to global GDP from AI by 2030 &mdash; but 70% may be captured by just ten countries</div>
+    </div>
+    <div class="stat anim anim-delay-1">
+      <div class="stat-number gold" data-count="40" data-suffix="%">0%</div>
+      <div class="stat-label">boost to global trade projected by 2040 &mdash; if infrastructure gaps are bridged</div>
+    </div>
+    <div class="stat anim anim-delay-2">
+      <div class="stat-number rose" data-count="15" data-suffix="%">0%</div>
+      <div class="stat-label">income rise possible in low-income countries if the digital gap is narrowed by half</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTERLUDE — THE QUESTION
+     ============================================================ -->
+<section class="interlude">
+  <div class="section-narrow" style="text-align:center;">
+    <p class="t-accent anim" style="font-size:clamp(1.1rem,2vw,1.6rem); color:var(--text-dim); margin-bottom:2.5rem;">And then comes the question that nobody can fully answer. Not the scientists, not the philosophers, not the policy-makers. The question that keeps even its creators awake at night:</p>
+    <h2 class="interlude-question anim anim-delay-1">What happens when the machine becomes smarter than all of us combined?</h2>
+  </div>
+</section>
+
+<!-- ============================================================
+     PHOTO: BEYOND — Transition into Chapter III
+     ============================================================ -->
+<div class="full-image full-image-tall anim-scale">
+  <img src="https://images.unsplash.com/photo-1754940320669-995969fa8d20?auto=format&fit=crop&w=1600&q=80" alt="A swirling cosmic nebula in violet and blue — the edge of the unknowable" loading="lazy">
+  <div class="full-image-overlay full-image-overlay-violet"></div>
+  <div class="full-image-text">
+    <h3>Into the Unknown</h3>
+    <p>Beyond human comprehension. Beyond prediction. Beyond everything we thought we knew.</p>
+  </div>
+  <span class="full-image-caption">Photo: Kristaps Ungurs / Unsplash</span>
+</div>
+
+<!-- ============================================================
+     CHAPTER III: ASI — BEYOND
+     ============================================================ -->
+<section class="chapter-header era-asi" id="ch3">
+  <!-- Chapter Illustration: Cosmic expansion -->
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="asiGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#7b5ea7" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#7b5ea7" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="asiCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="200" r="180" fill="url(#asiGlow)">
+        <animate attributeName="r" values="170;190;170" dur="10s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Expanding rings -->
+      <g stroke="#a78bfa" stroke-width="0.5" fill="none">
+        <circle cx="200" cy="200" r="30" opacity="0.4"><animate attributeName="r" values="30;180" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="6s" repeatCount="indefinite"/></circle>
+        <circle cx="200" cy="200" r="30" opacity="0.4"><animate attributeName="r" values="30;180" dur="6s" begin="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="6s" begin="2s" repeatCount="indefinite"/></circle>
+        <circle cx="200" cy="200" r="30" opacity="0.4"><animate attributeName="r" values="30;180" dur="6s" begin="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0" dur="6s" begin="4s" repeatCount="indefinite"/></circle>
+      </g>
+      <!-- Central core -->
+      <circle cx="200" cy="200" r="15" fill="url(#asiCore)">
+        <animate attributeName="r" values="12;18;12" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Orbiting dots -->
+      <g fill="#00e5ff" opacity="0.5">
+        <circle cx="200" cy="200" r="2">
+          <animateMotion dur="8s" repeatCount="indefinite" path="M0,0 A60,60 0 1 1 0.01,0"/>
+        </circle>
+        <circle cx="200" cy="200" r="1.5">
+          <animateMotion dur="12s" repeatCount="indefinite" path="M0,0 A90,90 0 1 0 0.01,0"/>
+        </circle>
+        <circle cx="200" cy="200" r="1">
+          <animateMotion dur="16s" repeatCount="indefinite" path="M0,0 A120,120 0 1 1 0.01,0"/>
+        </circle>
+      </g>
+      <!-- Star field -->
+      <g fill="#a78bfa" opacity="0.2">
+        <circle cx="80" cy="60" r="1"/><circle cx="320" cy="80" r="0.8"/><circle cx="60" cy="300" r="0.6"/>
+        <circle cx="340" cy="320" r="1"/><circle cx="150" cy="50" r="0.5"/><circle cx="280" cy="350" r="0.7"/>
+        <circle cx="40" cy="180" r="0.8"/><circle cx="360" cy="200" r="0.6"/><circle cx="100" cy="350" r="0.5"/>
+        <circle cx="300" cy="40" r="0.7"/><circle cx="180" cy="360" r="0.8"/><circle cx="50" cy="120" r="0.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="chapter-number anim-scale">III</div>
+  <p class="chapter-era anim">Chapter Three &middot; The Horizon</p>
+  <h2 class="chapter-title anim anim-delay-1">Beyond</h2>
+  <p class="chapter-desc anim anim-delay-2">Artificial Superintelligence is to AGI what AGI was to a calculator. We cannot fully describe it, because to do so would require an intelligence we do not possess. But we can describe what it might feel like from the ground.</p>
+</section>
+
+<!-- ASI Preface -->
+<div class="story anim" style="background:linear-gradient(180deg, #0a0610 0%, var(--bg-dark) 100%);">
+  <div class="story-inner">
+    <p style="font-family:var(--font-accent); font-size:1.4rem; color:var(--text-dim); font-style:italic; text-align:center; margin-bottom:3rem; line-height:1.8;">"Trying to imagine ASI is like asking a house cat to imagine the internet. The cat can sit on the laptop. It cannot conceive of what the laptop contains."</p>
+    <p>We will not pretend to describe ASI with precision. That would be dishonest. But we can follow our five people a few more years into the future and describe the world they might inhabit &mdash; not as prophecy, but as trajectory. If the arc bends the way the physics of progress suggests it might, this is what it looks like from a vegetable stall in Madurai, from a two-acre farm outside Nairobi, from a studio in Dhaka.</p>
+  </div>
+</div>
+
+<!-- Lakshmi: ASI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-lakshmi">L</div>
+      <div>
+        <div class="story-name">Lakshmi</div>
+        <div class="story-loc">Madurai &mdash; The ASI Era</div>
+      </div>
+    </div>
+    <p>The clinic in Madurai diagnosed her husband with pancreatic cancer. Stage three. A year ago, this was a death sentence &mdash; especially in a district hospital, especially without the money for Chennai or Mumbai. Today, the ASI-designed treatment protocol, a combination of targeted nanomedicine and a reprogrammed immune response that no team of human oncologists could have devised, gives him a ninety-four percent survival rate. The treatment costs three thousand four hundred rupees. Less than what Lakshmi earns in a single day now.</p>
+    <p>She sits in the gleaming clinic, so different from the government hospital she remembers, and thinks about her mother, who died of a treatable infection fifteen years ago because the nearest doctor was forty kilometers away and it was monsoon season and the roads were rivers of mud.</p>
+    <p><strong>This is what progress feels like. Not like a headline. Like a quiet room where your husband is going to live.</strong></p>
+    <p>Outside the clinic, the city itself is different. Traffic flows with an eerie intelligence. The air quality has improved &mdash; the ASI-designed industrial processes that replaced the old factories produce ninety-six percent fewer emissions. Poverty, as Lakshmi's generation knew it &mdash; the grinding, inescapable, generational kind &mdash; is receding. Not vanished. Not yet. But receding, like a tide that everyone thought was permanent.</p>
+  </div>
+</div>
+
+<!-- Ravi: ASI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-ravi">R</div>
+      <div>
+        <div class="story-name">Ravi</div>
+        <div class="story-loc">Bangalore &mdash; The ASI Era</div>
+      </div>
+    </div>
+    <p>The concept of "employment" as Ravi's generation understood it no longer fully applies. The logistics platform he built was absorbed into a larger ASI-coordinated supply network that operates across the subcontinent with a fluency that makes Ravi's original app look like a child's drawing next to a photograph. He does not resent this. The absorption made him wealthy &mdash; genuinely, life-alteringly wealthy &mdash; and the universal basic services framework means that nobody in his mother's village goes without food, healthcare, or connectivity.</p>
+    <p>Ravi now does something he never had a word for before: he creates. He designs community spaces. He mentors young people from backgrounds like his &mdash; delivery drivers, autorickshaw operators, street vendors &mdash; who are navigating the same vertiginous transition he went through. He is, in a sense, a translator: someone who speaks both the language of the old world and the new.</p>
+    <p>His mother, now seventy-one, video-calls him every evening. The ASI-powered health monitor on her wrist detected an irregular heartbeat six months ago, referred her to a cardiologist before she felt a single symptom, and managed her treatment so precisely that she told Ravi: <strong>"This bracelet cares for me better than you do."</strong> He laughed. She was not entirely joking.</p>
+  </div>
+</div>
+
+<!-- Aminah: ASI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-aminah">A</div>
+      <div>
+        <div class="story-name">Aminah</div>
+        <div class="story-loc">Dhaka &mdash; The ASI Era</div>
+      </div>
+    </div>
+    <p>The floods did not come this year. Or the year before.</p>
+    <p>Aminah's family village in Sylhet used to flood every monsoon. Climate models predicted it would get worse &mdash; much worse &mdash; until the village simply ceased to be habitable. Her mother had begun talking about when, not if, they would leave.</p>
+    <p>The ASI-designed climate intervention systems changed the math. Not through some dramatic, cinematic geoengineering project, but through thousands of coordinated micro-interventions: optimized water management across the Meghna basin, atmospheric carbon capture at scales no human-designed system could have achieved, precision agriculture that turned farmland from a carbon source to a carbon sink. The global temperature curve is bending downward for the first time.</p>
+    <p>Aminah's fashion studio now employs forty people. Her designs are worn in twelve countries. The ASI helps her create fabrics with properties that did not exist five years ago &mdash; self-cleaning, temperature-responsive, biodegradable within ninety days of disposal. She still keeps the old notebook on her desk. <strong>Sometimes she opens it and looks at the sketches from the factory dormitory, and marvels at the distance between the woman who drew them and the woman who reads them now.</strong></p>
+  </div>
+</div>
+
+<!-- Joseph: ASI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-joseph">J</div>
+      <div>
+        <div class="story-name">Joseph</div>
+        <div class="story-loc">Kangundo Road, Kenya &mdash; The ASI Era</div>
+      </div>
+    </div>
+    <p>Food scarcity, as a structural problem in East Africa, has ended. Not because of Joseph &mdash; and not because of any single intervention &mdash; but because the ASI coordinated an agricultural and distribution system of such breathtaking complexity that the ancient problem of too much food here and too little there was solved the way a Rubik's cube is solved: through a sequence of moves too intricate for any human to follow, but with a result anyone can recognize.</p>
+    <p>Joseph's farm is now a research garden. He grows traditional crop varieties &mdash; heritage maize, ancestral bean cultivars, indigenous vegetables that were disappearing &mdash; and works with the ASI to catalog their genetic properties. His two acres have become a living library of agricultural biodiversity.</p>
+    <p>He does not understand the science, not really. But he understands what he is protecting. And the ASI, for all its incomprehensible intelligence, needs him &mdash; needs his knowledge of the land, his farmer's intuition about which seeds want which soil, his decades of watching this specific piece of earth respond to rain and sun and neglect and care. <strong>The smartest system ever created still needs a man who knows his ground.</strong></p>
+  </div>
+</div>
+
+<!-- Devi: ASI -->
+<div class="story anim">
+  <div class="story-inner">
+    <div class="story-character">
+      <div class="story-avatar avatar-devi">D</div>
+      <div>
+        <div class="story-name">Devi</div>
+        <div class="story-loc">Everywhere &mdash; The ASI Era</div>
+      </div>
+    </div>
+    <p>Devi is asking questions that no human being has ever asked. This is not a metaphor. She works at the frontier of theoretical physics, in a domain that did not exist before ASI illuminated it: the study of information structures that underlie physical reality. The ASI proposed the framework. Devi is one of the humans who can almost hold it in her mind.</p>
+    <p>She does not feel small. She feels the way she felt at sixteen, solving physics problems by phone-light in Lucknow &mdash; that same electricity, that same sense of a door opening. The room is just infinitely larger now.</p>
+    <p>Her father still drives his auto-rickshaw, though now it drives itself and he mostly rides along for the conversation with passengers. He tells everyone about his daughter. "She is studying something I cannot pronounce," he says, beaming. "But she told me it is about the shape of the universe." He pauses. <strong>"My daughter is studying the shape of the universe."</strong></p>
+    <p>He says it the way a man says a prayer.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     FINAL PULLQUOTE
+     ============================================================ -->
+<div class="pullquote anim" style="padding:8rem 2rem;">
+  <p class="pullquote-text" style="font-size:clamp(1.3rem,2.8vw,2.2rem);">"The measure of this transformation will not be the intelligence of the machines. It will be the <span class="highlight-violet">dignity</span> of the lives they touch. Every Lakshmi who reads a document without asking for help. Every Ravi who builds instead of just delivering. Every Aminah who shows the notebook. Every Joseph who saves the harvest. Every Devi who reaches the stars she was born under."</p>
+</div>
+
+<!-- ============================================================
+     PHOTO: DAWN — Transition into Epilogue
+     ============================================================ -->
+<div class="full-image full-image-medium anim-scale">
+  <img src="https://images.unsplash.com/photo-1752122094097-a27239f964cd?auto=format&fit=crop&w=1600&q=80" alt="Brilliant sunlight breaks through clouds at dawn — the warmth of a new beginning" loading="lazy">
+  <div class="full-image-overlay" style="background: linear-gradient(180deg, rgba(6,6,11,0.7) 0%, rgba(14,12,8,0.2) 40%, rgba(14,12,8,0.4) 70%, rgba(6,6,11,0.9) 100%);"></div>
+  <div class="full-image-text" style="text-align:center; left:50%; transform:translateX(-50%); max-width:500px;">
+    <h3 style="text-align:center;">A New Dawn</h3>
+    <p style="text-align:center;">The future is not a place we are going. It is a thing we are making.</p>
+  </div>
+  <span class="full-image-caption">Photo: Liana S / Unsplash</span>
+</div>
+
+<!-- ============================================================
+     EPILOGUE
+     ============================================================ -->
+<section class="section epilogue" id="epilogue">
+  <div class="section-narrow" style="position:relative; z-index:1;">
+    <p class="t-label anim" style="color:var(--gold); margin-bottom:2rem;">Epilogue</p>
+    <h2 class="epilogue-title anim anim-delay-1">The Greatest Story<br>Ever Being Written</h2>
+
+    <!-- SVG sunrise illustration -->
+    <div class="anim anim-delay-2" style="margin: 2rem auto; text-align: center;">
+      <svg width="120" height="60" viewBox="0 0 120 60" style="opacity:0.4;">
+        <defs>
+          <linearGradient id="sunGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e8c85a" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#d4764e" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="50" x2="120" y2="50" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+        <path d="M60,50 A30,30 0 0,1 90,50" fill="none" stroke="url(#sunGrad)" stroke-width="1"/>
+        <path d="M60,50 A30,30 0 0,1 30,50" fill="none" stroke="url(#sunGrad)" stroke-width="1"/>
+        <!-- Sun rays -->
+        <g stroke="#e8c85a" stroke-width="0.5" opacity="0.3">
+          <line x1="60" y1="50" x2="60" y2="15"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/></line>
+          <line x1="60" y1="50" x2="40" y2="20"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="4s" repeatCount="indefinite"/></line>
+          <line x1="60" y1="50" x2="80" y2="20"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="3.5s" repeatCount="indefinite"/></line>
+          <line x1="60" y1="50" x2="25" y2="32"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="4.5s" repeatCount="indefinite"/></line>
+          <line x1="60" y1="50" x2="95" y2="32"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="5s" repeatCount="indefinite"/></line>
+        </g>
+        <circle cx="60" cy="50" r="4" fill="#e8c85a" opacity="0.5">
+          <animate attributeName="r" values="3;5;3" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+
+    <div class="epilogue-text anim anim-delay-2">
+      <p>The future is not a place we are going. It is a thing we are making.</p>
+      <p style="margin-top:1.5rem;">The distance between a vegetable vendor's phone and an artificial superintelligence is vast. But the distance between a woman who cannot read an English sign and a woman who runs a cooperative is also vast &mdash; and Lakshmi has already crossed it. The distance between a delivery boy with no prospects and an entrepreneur with a team is vast &mdash; and Ravi is already on the other side.</p>
+      <p style="margin-top:1.5rem;">The changes ahead will be disorienting, uneven, and at times frightening. There will be displacement. There will be loss. Entire industries will evaporate. Skills that defined generations will become obsolete. The transition will not be clean. It will be messy and painful and contested, and the people with the least power will, as always, bear the greatest risk of being left behind.</p>
+      <p style="margin-top:1.5rem;">But for the first time in history, the most powerful technology ever created is not behind a paywall, a border, or a language barrier. It is on a phone in Madurai, on a farm in Kenya, in a factory dormitory in Dhaka, in a student's hand in Lucknow.</p>
+      <p style="margin-top:1.5rem; color:var(--text-cream); font-size:1.1em;">And its greatest story will not be told in Silicon Valley boardrooms or research laboratories or the pages of scientific journals.</p>
+      <p style="margin-top:1.5rem; color:var(--gold); font-style:italic; font-size:1.25em;">It will be told in the lives of ordinary people who were never supposed to have access to the extraordinary.</p>
+    </div>
+    <div style="height:5rem"></div>
+    <p class="anim" style="font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); letter-spacing:0.2em;">&mdash; END &mdash;</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     COLOPHON
+     ============================================================ -->
+<footer class="colophon">
+  <div class="colophon-brand">Futurelab Studios</div>
+  <div class="colophon-location">Bangalore, India &middot; 2026</div>
+  <p>THE SHIFT &middot; A Digital Magazine &middot; Special Report 2026</p>
+  <!-- Intentionally minimal colophon &mdash; no external research credits or taglines -->
+
+  <!-- Futurelab Studios Logo Mark -->
+  <div class="colophon-logo" style="margin-top:2rem;">
+    <svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg" style="width:50px; height:40px; opacity:0.5;">
+      <defs>
+        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#8a8478" stop-opacity="0.7"/>
+        </linearGradient>
+      </defs>
+      <!-- 3x3 Grid -->
+      <rect x="2" y="12" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.6"/>
+      <rect x="12" y="12" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.7"/>
+      <rect x="22" y="12" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.5"/>
+      <rect x="2" y="22" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.7"/>
+      <rect x="12" y="22" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.8"/>
+      <rect x="22" y="22" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.6"/>
+      <rect x="2" y="32" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.5"/>
+      <rect x="12" y="32" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.6"/>
+      <rect x="22" y="32" width="8" height="8" rx="1" fill="url(#logoGrad)" opacity="0.7"/>
+      <!-- Floating pixel -->
+      <rect x="32" y="4" width="6" height="6" rx="1" fill="url(#logoGrad)" opacity="0.45"/>
+    </svg>
+  </div>
+
+  <p style="margin-top:1.5rem; font-style:italic; color:var(--gold-dim); font-family:var(--font-accent); font-size:0.85rem;">Designed and written with care, for a world worth imagining.</p>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT: Immersive Interactions
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // ========================================
+  // LOADING SCREEN
+  // ========================================
+  const loader = document.getElementById('loader');
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      document.body.style.overflow = '';
+      initParticles();
+    }, 2200);
+  });
+
+  // ========================================
+  // CUSTOM CURSOR
+  // ========================================
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorGlow = document.getElementById('cursorGlow');
+  const mouseGlow = document.getElementById('mouseGlow');
+  let mouseX = 0, mouseY = 0;
+  let dotX = 0, dotY = 0;
+  let glowX = 0, glowY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    mouseGlow.style.left = mouseX + 'px';
+    mouseGlow.style.top = mouseY + 'px';
+  });
+
+  function animateCursor() {
+    dotX += (mouseX - dotX) * 0.2;
+    dotY += (mouseY - dotY) * 0.2;
+    glowX += (mouseX - glowX) * 0.08;
+    glowY += (mouseY - glowY) * 0.08;
+
+    cursorDot.style.left = dotX - 4 + 'px';
+    cursorDot.style.top = dotY - 4 + 'px';
+    cursorGlow.style.left = glowX - 20 + 'px';
+    cursorGlow.style.top = glowY - 20 + 'px';
+
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Hover effects
+  document.querySelectorAll('.nav-dot, .cast-card, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorGlow.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursorGlow.classList.remove('hovering'));
+  });
+
+  // ========================================
+  // PARTICLE CANVAS
+  // ========================================
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 80;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.3 + 0.05;
+      this.hue = Math.random() * 60 + 30; // gold range
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+      // Color shift based on scroll
+      const scrollRatio = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrollRatio < 0.35) {
+        this.hue = 30 + Math.random() * 30; // warm gold/ember
+      } else if (scrollRatio < 0.65) {
+        this.hue = 170 + Math.random() * 30; // teal
+      } else {
+        this.hue = 260 + Math.random() * 30; // violet
+      }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${this.hue}, 60%, 60%, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+    animateParticles();
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `hsla(${particles[i].hue}, 50%, 50%, ${0.03 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    drawConnections();
+    requestAnimationFrame(animateParticles);
+  }
+
+  // ========================================
+  // PROGRESS BAR
+  // ========================================
+  const progressBar = document.getElementById('progressBar');
+  const nav = document.getElementById('nav');
+  const mobileNav = document.getElementById('mobileNav');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    progressBar.style.width = progress + '%';
+
+    if (scrollTop > window.innerHeight * 0.5) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  }
+
+  // ========================================
+  // SCROLL ANIMATIONS
+  // ========================================
+  const animObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('vis');
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.anim, .anim-scale, .anim-left, .anim-right').forEach(el => {
+    animObserver.observe(el);
+  });
+
+  // ========================================
+  // ANIMATED COUNTERS
+  // ========================================
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = 'true';
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+    counterObserver.observe(el);
+  });
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Easing: ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      el.textContent = prefix + current + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  // ========================================
+  // TIMELINE ANIMATION
+  // ========================================
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fill = entry.target.querySelector('.timeline-fill');
+        if (fill) {
+          fill.classList.add('animated');
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.timeline-bar').forEach(el => {
+    timelineObserver.observe(el);
+  });
+
+  // ========================================
+  // NAV DOTS
+  // ========================================
+  const navDots = document.querySelectorAll('.nav-dot');
+  const sections = [];
+  navDots.forEach(dot => {
+    const targetId = dot.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) sections.push({ dot, el: targetEl });
+    dot.addEventListener('click', () => {
+      if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  function updateNav() {
+    const scrollY = window.scrollY + window.innerHeight * 0.4;
+    let current = sections[0];
+    for (const s of sections) {
+      if (scrollY >= s.el.offsetTop) current = s;
+    }
+    navDots.forEach(d => d.classList.remove('active'));
+    if (current) {
+      current.dot.classList.add('active');
+      // Sync mobile nav chips
+      if (mobileNav) {
+        mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.classList.toggle('active', link.getAttribute('data-target') === current.el.id);
+        });
+      }
+    }
+  }
+
+  // ========================================
+  // MOUSE GLOW COLOR SHIFT
+  // ========================================
+  function updateMouseGlow() {
+    const scrollRatio = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    let color;
+    if (scrollRatio < 0.3) {
+      color = 'rgba(201,168,76,0.04)';
+    } else if (scrollRatio < 0.6) {
+      color = 'rgba(43,158,179,0.04)';
+    } else {
+      color = 'rgba(167,139,250,0.04)';
+    }
+    mouseGlow.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
+  }
+
+  // ========================================
+  // PARALLAX on chapter headers
+  // ========================================
+  function updateParallax() {
+    document.querySelectorAll('.chapter-number').forEach(el => {
+      const rect = el.closest('.chapter-header').getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const offset = (center - window.innerHeight / 2) * 0.05;
+      el.style.transform = `translateY(${offset}px)`;
+    });
+  }
+
+  // ========================================
+  // 3D TILT on cast cards
+  // ========================================
+  document.querySelectorAll('.cast-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / centerY * -5;
+      const rotateY = (x - centerX) / centerX * 5;
+      card.style.transform = `translateY(-8px) perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // ========================================
+  // THEME TOGGLE (LIGHT / DARK)
+  // ========================================
+  const themeToggle = document.getElementById('themeToggle');
+  const THEME_KEY = 'the-shift-theme';
+
+  function applyTheme(theme) {
+    const isLight = theme === 'light';
+    document.body.classList.toggle('theme-light', isLight);
+    const label = themeToggle.querySelector('.theme-toggle-label');
+    if (label) {
+      label.textContent = isLight ? 'Light' : 'Dark';
+    }
+  }
+
+  // Initialise from saved preference (default: dark)
+  (function initTheme() {
+    if (!themeToggle) return;
+    let stored = localStorage.getItem(THEME_KEY);
+    if (!stored) {
+      stored = 'dark';
+      localStorage.setItem(THEME_KEY, stored);
+    }
+    applyTheme(stored);
+  })();
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('theme-light');
+      const theme = isLight ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, theme);
+      const label = themeToggle.querySelector('.theme-toggle-label');
+      if (label) label.textContent = isLight ? 'Light' : 'Dark';
+    });
+  }
+
+  // ========================================
+  // MOBILE NAV (CHAPTER CHIPS)
+  // ========================================
+  if (mobileNav) {
+    mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+      const id = link.getAttribute('data-target');
+      const target = document.getElementById(id);
+      if (!target) return;
+      link.addEventListener('click', () => {
+        target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  // ========================================
+  // THROTTLED SCROLL HANDLER
+  // ========================================
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateProgress();
+        updateNav();
+        updateMouseGlow();
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Initial calls
+  updateProgress();
+  updateNav();
+  updateMouseGlow();
+
+})();
+</script>
+
+</body>
+</html>
